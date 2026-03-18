@@ -227,7 +227,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 <div class="page active" id="page-upload">
 
   <!-- API Key -->
-  <div class="card" id="apiCard">
+  <div class="card" id="apiCard" style="display:none">
     <div class="card-title"><span class="card-title-icon">🔑</span> API 金鑰</div>
     <div class="inp-row">
       <input class="inp" type="password" id="apiKey" placeholder="sk-ant-api03-xxxxxxxxxx...">
@@ -505,7 +505,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 // ============================================================
 // STATE
 // ============================================================
-let apiKey = localStorage.getItem('kx_apikey') || '';
+let apiKey = 'server';
 let inventory = JSON.parse(localStorage.getItem('kx_inventory') || '[]');
 let usageCount = parseInt(localStorage.getItem('kx_usage') || '0');
 let usageMonth = localStorage.getItem('kx_usage_month') || '';
@@ -531,10 +531,7 @@ window.onload = () => {
     localStorage.setItem('kx_usage_month', thisMonth);
   }
 
-  if (apiKey) {
-    document.getElementById('apiKey').value = apiKey;
-    setApiStatus(true);
-  }
+  setApiStatus(true);
   if (logoDataUrl) {
     const img = document.getElementById('logoPreview');
     img.src = logoDataUrl;
@@ -720,7 +717,7 @@ async function applyWatermark(imgFile) {
 // ANALYZE
 // ============================================================
 async function analyze() {
-  if (!apiKey) { showErr('請先輸入並儲存 API 金鑰'); return; }
+  // API key handled server-side
 
   const limit = PLAN_LIMITS[currentPlan];
   if (document.getElementById('autoStop').checked && usageCount >= limit) {
@@ -810,7 +807,7 @@ ${extra.length ? '補充資訊：'+extra.join('、')+'\n' : ''}
         
       },
       body: JSON.stringify({
-        model:'claude-opus-4-5',
+        model:'claude-sonnet-4-5',
         max_tokens:2500,
         system:'你是專業的二手車辨識 AI。從照片中精準提取資訊並生成吸引人的文案。用繁體中文回答。市場估價請根據台灣二手車市場行情估算。',
         messages:[{ role:'user', content }]
