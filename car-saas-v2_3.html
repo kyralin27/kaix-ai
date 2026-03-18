@@ -801,14 +801,12 @@ ${extra.length ? '補充資訊：'+extra.join('、')+'\n' : ''}
 
     setLoading(true, 'AI 正在生成分析報告與文案...');
 
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('/api/claude', {
       method:'POST',
       headers:{
         'Content-Type':'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version':'2023-06-01',
-        'anthropic-dangerous-direct-browser-access':'true'
-      },
+  'anthropic-version':'2023-06-01',
+},
       body: JSON.stringify({
         model:'claude-opus-4-6',
         max_tokens:2500,
