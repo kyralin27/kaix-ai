@@ -10,6 +10,12 @@ export default async function handler(req, res) {
   if (!apiKey) { res.status(500).json({ error: 'Server API key not configured' }); return; }
 
   try {
+    const body = req.body;
+    
+    // Log for debugging
+    console.log('Request body keys:', Object.keys(body || {}));
+    console.log('Model:', body?.model);
+    
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -17,10 +23,19 @@ export default async function handler(req, res) {
         'x-api-key': apiKey,
         'anthropic-version': '2023-06-01',
       },
-      body: JSON.stringify(req.body),
+      body: JSON.stringify(body),
     });
-    const data = await response.json();
-    res.status(response.status).json(data);
+    
+    const text = await response.text();
+    console.log('Anthropic response status:', response.status);
+    console.log('Anthropic response:', text.slice(0, 200));
+    
+    try {
+      const data = JSON.parse(text);
+      res.status(response.status).json(data);
+    } catch(e) {
+      res.status(500).json({ error: 'Invalid response from Anthropic', raw: text.slice(0, 500) });
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
