@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KaiX AI｜二手車智慧上架系統</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;700&family=DM+Mono:wght@400;500&family=Playfair+Display:wght@700&family=Oswald:wght@700&family=Roboto:wght@700&family=Montserrat:wght@700&family=Raleway:wght@700&family=Poppins:wght@700&family=Nunito:wght@700&family=Open+Sans:wght@700&family=Lato:wght@700&family=Ubuntu:wght@700&family=Bebas+Neue&family=Anton&family=Bangers&family=Pacifico&family=Dancing+Script:wght@700&family=Permanent+Marker&family=Caveat:wght@700&family=Righteous&family=Russo+One&family=Merriweather:wght@700&family=Lora:wght@700&family=Libre+Baskerville:wght@700&family=Source+Code+Pro:wght@700&family=Fira+Code:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Noto+Serif+TC:wght@400;700&family=Ma+Shan+Zheng&family=ZCOOL+KuaiLe&family=ZCOOL+XiaoWei&family=Liu+Jian+Mao+Cao&family=Long+Cang&family=Playfair+Display:wght@700&family=Merriweather:wght@700&family=Lora:wght@700&family=Libre+Baskerville:wght@700&family=Oswald:wght@700&family=Roboto:wght@700&family=Montserrat:wght@700&family=Raleway:wght@700&family=Poppins:wght@700&family=Nunito:wght@700&family=Open+Sans:wght@700&family=Lato:wght@700&family=Ubuntu:wght@700&family=Exo+2:wght@700&family=Quicksand:wght@700&family=Bebas+Neue&family=Anton&family=Bangers&family=Righteous&family=Russo+One&family=Passion+One&family=Black+Han+Sans&family=Pacifico&family=Dancing+Script:wght@700&family=Permanent+Marker&family=Caveat:wght@700&family=Satisfy&family=Kaushan+Script&family=Yellowtail&family=Sacramento&family=Great+Vibes&family=Alex+Brush&family=Allura&family=Amatic+SC:wght@700&family=Source+Code+Pro:wght@700&family=Fira+Code:wght@700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #0b0d11;
@@ -295,53 +295,6 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     </div>
   </div>
 
-  <!-- Watermark -->
-  <div class="card">
-    <div class="card-title"><span class="card-title-icon">🔏</span> 浮水印設定</div>
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:var(--text2)">
-        <input type="checkbox" id="wmEnabled" onchange="toggleWm()" style="accent-color:var(--accent)"> 啟用浮水印
-      </label>
-      <span style="font-size:12px;color:var(--text3)">防盜圖 · 自動打品牌</span>
-    </div>
-    <div id="wmPanel" style="display:none">
-      <div class="wm-section">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-          <div>
-            <div class="inp-label">店家 Logo（PNG 透明背景）</div>
-            <label class="upload-zone" style="min-height:80px;padding:14px;cursor:pointer" for="wmLogo">
-              <input type="file" id="wmLogo" accept="image/*" onchange="loadLogo()" style="display:none">
-              <div style="font-size:12px;color:var(--text3)">點擊上傳 Logo</div>
-              <img id="logoPreview" style="max-height:50px;margin-top:8px;display:none;object-fit:contain">
-            </label>
-          </div>
-          <div>
-            <div class="inp-label">店名文字（可留空）</div>
-            <input class="inp" type="text" id="wmText" placeholder="例：KaiX 汽車">
-            <div class="inp-label" style="margin-top:10px">電話</div>
-            <input class="inp" type="text" id="wmPhone" placeholder="例：0912-345-678">
-          </div>
-        </div>
-        <div class="wm-controls">
-          <div class="wm-ctrl-item">
-            <div class="wm-ctrl-label">透明度 <span id="wmOpacityVal">60</span>%</div>
-            <input type="range" id="wmOpacity" min="10" max="90" value="60" oninput="document.getElementById('wmOpacityVal').textContent=this.value">
-          </div>
-          <div class="wm-ctrl-item">
-            <div class="wm-ctrl-label">位置</div>
-            <select class="inp" id="wmPos" style="padding:8px 12px">
-              <option value="br">右下角</option>
-              <option value="bl">左下角</option>
-              <option value="tr">右上角</option>
-              <option value="tl">左上角</option>
-              <option value="center">正中央</option>
-            </select>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Analyze -->
   <div class="analyze-btn-wrap">
     <button class="btn btn-primary btn-full" id="btnAnalyze" onclick="analyze()">
@@ -475,119 +428,235 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
       <div>
         <div class="inp-label">店家名稱</div>
-        <input class="inp" type="text" id="storeName" placeholder="例：KaiX 汽車">
+        <div style="display:flex;gap:8px;align-items:center">
+          <input class="inp" type="text" id="storeName" placeholder="例：KaiX 汽車" oninput="updateWmPreview()">
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;white-space:nowrap;font-size:12px;color:var(--text2)">
+            <input type="checkbox" id="showStoreName" checked style="accent-color:var(--accent)"> 顯示
+          </label>
+        </div>
       </div>
       <div>
         <div class="inp-label">聯絡電話</div>
-        <input class="inp" type="text" id="storePhone" placeholder="例：0912-345-678">
+        <div style="display:flex;gap:8px;align-items:center">
+          <input class="inp" type="text" id="storePhone" placeholder="例：0912-345-678" oninput="updateWmPreview()">
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;white-space:nowrap;font-size:12px;color:var(--text2)">
+            <input type="checkbox" id="showStorePhone" checked style="accent-color:var(--accent)"> 顯示
+          </label>
+        </div>
       </div>
       <div>
         <div class="inp-label">地址</div>
-        <input class="inp" type="text" id="storeAddr" placeholder="例：台北市中山區...">
+        <div style="display:flex;gap:8px;align-items:center">
+          <input class="inp" type="text" id="storeAddr" placeholder="例：台北市中山區..." oninput="updateWmPreview()">
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;white-space:nowrap;font-size:12px;color:var(--text2)">
+            <input type="checkbox" id="showStoreAddr" style="accent-color:var(--accent)"> 顯示
+          </label>
+        </div>
       </div>
       <div>
         <div class="inp-label">LINE ID</div>
-        <input class="inp" type="text" id="storeLine" placeholder="例：@kaixauto">
+        <div style="display:flex;gap:8px;align-items:center">
+          <input class="inp" type="text" id="storeLine" placeholder="例：@kaixauto" oninput="updateWmPreview()">
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;white-space:nowrap;font-size:12px;color:var(--text2)">
+            <input type="checkbox" id="showStoreLine" style="accent-color:var(--accent)"> 顯示
+          </label>
+        </div>
       </div>
     </div>
+    <button class="btn btn-primary" style="margin-top:14px" onclick="saveSettings()">儲存店家資訊</button>
+  </div>
 
-    <hr class="divider">
-    <div style="font-size:12px;font-weight:500;color:var(--text3);margin-bottom:12px;letter-spacing:1px;text-transform:uppercase">浮水印文字設定</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
-      <div style="grid-column:1/-1">
-        <div class="inp-label">字型（中文）</div>
-        <select class="inp" id="wmFontStyle" style="padding:8px 12px" onchange="updateWmPreview()">
-          <optgroup label="── 中文推薦 ──">
-            <option value="'Noto Sans TC', sans-serif">Noto Sans TC｜現代黑體</option>
-            <option value="'Microsoft JhengHei', 'PingFang TC', sans-serif">微軟正黑體</option>
-            <option value="'PingFang TC', sans-serif">蘋方（Apple）</option>
-            <option value="'Source Han Sans TC', sans-serif">思源黑體</option>
-            <option value="'DFKai-SB', serif">標楷體</option>
-            <option value="'Noto Serif TC', serif">Noto Serif TC｜明體</option>
-            <option value="'cwTeXMing', serif">cwTeX 明體</option>
-            <option value="'cwTeXKai', serif">cwTeX 楷體</option>
-            <option value="'AR PL UMing TW', serif">文鼎明體</option>
+  <div class="card">
+    <div class="card-title"><span class="card-title-icon">🔏</span> 浮水印設定</div>
+
+    <!-- Enable toggle -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding:12px 16px;background:var(--bg3);border-radius:10px">
+      <div>
+        <div style="font-size:13px;font-weight:500;color:var(--text)">啟用浮水印</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px">防盜圖 · 自動打品牌</div>
+      </div>
+      <label style="position:relative;width:44px;height:24px;cursor:pointer">
+        <input type="checkbox" id="wmEnabled" onchange="saveSettings();updateWmPreview()" style="opacity:0;width:0;height:0">
+        <span id="wmToggleTrack" style="position:absolute;inset:0;background:var(--bg4);border-radius:12px;transition:.2s;border:1px solid var(--border)"></span>
+        <span id="wmToggleThumb" style="position:absolute;left:3px;top:3px;width:18px;height:18px;background:var(--text3);border-radius:50%;transition:.2s"></span>
+      </label>
+    </div>
+
+    <div id="wmSettingsPanel">
+      <!-- Logo upload -->
+      <div style="margin-bottom:16px">
+        <div class="inp-label">店家 Logo（PNG 透明背景最佳）</div>
+        <label class="upload-zone" style="min-height:80px;padding:14px;cursor:pointer;margin-top:6px" for="wmLogo">
+          <input type="file" id="wmLogo" accept="image/*" onchange="loadLogo()" style="display:none">
+          <img id="logoPreview" style="max-height:60px;display:none;object-fit:contain;margin-bottom:6px">
+          <div style="font-size:12px;color:var(--text3)" id="logoUploadHint">點擊上傳 Logo</div>
+        </label>
+      </div>
+
+      <!-- Font settings -->
+      <div style="margin-bottom:16px">
+        <div class="inp-label" style="margin-bottom:8px">字型選擇</div>
+        <select class="inp" id="wmFontStyle" style="padding:8px 12px;margin-bottom:8px" onchange="updateWmPreview()">
+          <optgroup label="── 中文 黑體 ──">
+            <option value="'Noto Sans TC',sans-serif">Noto Sans TC｜現代黑體 ★</option>
+            <option value="'Microsoft JhengHei','PingFang TC',sans-serif">微軟正黑體</option>
+            <option value="'PingFang TC',sans-serif">蘋方（Apple 系統）</option>
+            <option value="'Source Han Sans TC',sans-serif">思源黑體</option>
           </optgroup>
-          <optgroup label="── 英文 Serif ──">
-            <option value="Georgia, serif">Georgia</option>
-            <option value="'Times New Roman', serif">Times New Roman</option>
-            <option value="Garamond, serif">Garamond</option>
-            <option value="Palatino, serif">Palatino</option>
-            <option value="'Book Antiqua', serif">Book Antiqua</option>
-            <option value="'Playfair Display', serif">Playfair Display</option>
-            <option value="'Libre Baskerville', serif">Libre Baskerville</option>
-            <option value="'Merriweather', serif">Merriweather</option>
-            <option value="'Lora', serif">Lora</option>
+          <optgroup label="── 中文 手寫 / 特色 ──">
+            <option value="'DFKai-SB',serif">標楷體（手寫感）</option>
+            <option value="'Noto Serif TC',serif">Noto Serif TC｜明體</option>
+            <option value="'Ma Shan Zheng',cursive">馬善政楷書（手寫）</option>
+            <option value="'ZCOOL KuaiLe',cursive">站酷快樂體</option>
+            <option value="'ZCOOL XiaoWei',serif">站酷小薇體</option>
+            <option value="'Liu Jian Mao Cao',cursive">流江毛草（草書）</option>
+            <option value="'Long Cang',cursive">龍藏體（書法）</option>
           </optgroup>
           <optgroup label="── 英文 Sans-Serif ──">
-            <option value="'Helvetica Neue', Helvetica, sans-serif">Helvetica Neue</option>
-            <option value="'Arial Black', sans-serif">Arial Black（粗）</option>
-            <option value="Impact, sans-serif">Impact（衝擊）</option>
-            <option value="'Oswald', sans-serif">Oswald</option>
-            <option value="'Roboto', sans-serif">Roboto</option>
-            <option value="'Montserrat', sans-serif">Montserrat</option>
-            <option value="'Raleway', sans-serif">Raleway</option>
-            <option value="'Poppins', sans-serif">Poppins</option>
-            <option value="'Nunito', sans-serif">Nunito</option>
-            <option value="'Open Sans', sans-serif">Open Sans</option>
-            <option value="'Lato', sans-serif">Lato</option>
-            <option value="'Ubuntu', sans-serif">Ubuntu</option>
+            <option value="'Helvetica Neue',Helvetica,sans-serif">Helvetica Neue</option>
+            <option value="'Arial Black',sans-serif">Arial Black（粗）</option>
+            <option value="Impact,sans-serif">Impact（衝擊）</option>
+            <option value="'Oswald',sans-serif">Oswald</option>
+            <option value="'Roboto',sans-serif">Roboto</option>
+            <option value="'Montserrat',sans-serif">Montserrat</option>
+            <option value="'Raleway',sans-serif">Raleway</option>
+            <option value="'Poppins',sans-serif">Poppins</option>
+            <option value="'Nunito',sans-serif">Nunito（圓潤）</option>
+            <option value="'Open Sans',sans-serif">Open Sans</option>
+            <option value="'Lato',sans-serif">Lato</option>
+            <option value="'Ubuntu',sans-serif">Ubuntu</option>
+            <option value="'Exo 2',sans-serif">Exo 2（科技）</option>
+            <option value="'Quicksand',sans-serif">Quicksand（輕盈）</option>
+          </optgroup>
+          <optgroup label="── 英文 Serif ──">
+            <option value="Georgia,serif">Georgia</option>
+            <option value="'Times New Roman',serif">Times New Roman</option>
+            <option value="'Playfair Display',serif">Playfair Display（優雅）</option>
+            <option value="'Merriweather',serif">Merriweather</option>
+            <option value="'Lora',serif">Lora</option>
+            <option value="'Libre Baskerville',serif">Libre Baskerville</option>
+          </optgroup>
+          <optgroup label="── 英文 手寫 ──">
+            <option value="'Pacifico',cursive">Pacifico（圓潤）</option>
+            <option value="'Dancing Script',cursive">Dancing Script（優雅）</option>
+            <option value="'Permanent Marker',cursive">Permanent Marker（麥克筆）</option>
+            <option value="'Caveat',cursive">Caveat（隨筆）</option>
+            <option value="'Satisfy',cursive">Satisfy（流暢）</option>
+            <option value="'Kaushan Script',cursive">Kaushan Script（俐落）</option>
+            <option value="'Yellowtail',cursive">Yellowtail（復古）</option>
+            <option value="'Sacramento',cursive">Sacramento（細緻）</option>
+            <option value="'Great Vibes',cursive">Great Vibes（婚禮風）</option>
+            <option value="'Alex Brush',cursive">Alex Brush（輕盈）</option>
+            <option value="'Allura',cursive">Allura（華麗）</option>
+            <option value="'Amatic SC',cursive">Amatic SC（手寫塊）</option>
           </optgroup>
           <optgroup label="── 英文 Display / 特色 ──">
-            <option value="'Bebas Neue', sans-serif">Bebas Neue（全大寫）</option>
-            <option value="'Anton', sans-serif">Anton（粗黑）</option>
-            <option value="'Bangers', cursive">Bangers（漫畫風）</option>
-            <option value="'Pacifico', cursive">Pacifico（圓潤手寫）</option>
-            <option value="'Dancing Script', cursive">Dancing Script（優雅）</option>
-            <option value="'Permanent Marker', cursive">Permanent Marker（麥克筆）</option>
-            <option value="'Caveat', cursive">Caveat（手寫）</option>
-            <option value="'Righteous', sans-serif">Righteous（復古）</option>
-            <option value="'Russo One', sans-serif">Russo One（科技感）</option>
+            <option value="'Bebas Neue',sans-serif">Bebas Neue（全大寫）</option>
+            <option value="'Anton',sans-serif">Anton（粗黑）</option>
+            <option value="'Bangers',cursive">Bangers（漫畫）</option>
+            <option value="'Righteous',sans-serif">Righteous（復古）</option>
+            <option value="'Russo One',sans-serif">Russo One（科技）</option>
+            <option value="'Passion One',sans-serif">Passion One</option>
+            <option value="'Black Han Sans',sans-serif">Black Han Sans（韓風粗）</option>
           </optgroup>
           <optgroup label="── 等寬 Monospace ──">
-            <option value="'Courier New', monospace">Courier New</option>
-            <option value="'Source Code Pro', monospace">Source Code Pro</option>
-            <option value="'Fira Code', monospace">Fira Code</option>
+            <option value="'Courier New',monospace">Courier New</option>
+            <option value="'Source Code Pro',monospace">Source Code Pro</option>
+            <option value="'Fira Code',monospace">Fira Code</option>
           </optgroup>
         </select>
-      </div>
-      <div>
-        <div class="inp-label">字體大小</div>
-        <select class="inp" id="wmFontSize" style="padding:8px 12px" onchange="updateWmPreview()">
-          <option value="auto">自動（依照片大小）</option>
-          <option value="small">小</option>
-          <option value="medium">中</option>
-          <option value="large">大</option>
-          <option value="xlarge">超大</option>
-        </select>
-      </div>
-      <div>
-        <div class="inp-label">文字顏色</div>
-        <div style="display:flex;gap:8px;align-items:center;margin-top:4px">
-          <input type="color" id="wmFontColor" value="#ffffff"
-            style="width:44px;height:36px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);cursor:pointer;padding:2px"
-            oninput="updateWmPreview()">
-          <div style="font-size:12px;color:var(--text3)">點擊選色<br>任意顏色</div>
+
+        <!-- Font style toggles -->
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <label style="display:flex;align-items:center;gap:5px;cursor:pointer;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12px;color:var(--text2)">
+            <input type="checkbox" id="wmBold" checked onchange="updateWmPreview()" style="accent-color:var(--accent)">
+            <strong>粗體 B</strong>
+          </label>
+          <label style="display:flex;align-items:center;gap:5px;cursor:pointer;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12px;color:var(--text2)">
+            <input type="checkbox" id="wmItalic" onchange="updateWmPreview()" style="accent-color:var(--accent)">
+            <em>斜體 I</em>
+          </label>
         </div>
       </div>
-      <div>
-        <div class="inp-label">陰影顏色</div>
-        <div style="display:flex;gap:8px;align-items:center;margin-top:4px">
-          <input type="color" id="wmShadowColor" value="#000000"
-            style="width:44px;height:36px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);cursor:pointer;padding:2px"
-            oninput="updateWmPreview()">
-          <div style="font-size:12px;color:var(--text3)">文字外框<br>增加對比</div>
+
+      <!-- Font size -->
+      <div style="margin-bottom:16px">
+        <div class="inp-label" style="margin-bottom:8px">字體大小</div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;color:var(--text2)">
+            <input type="radio" name="wmSizeMode" value="auto" id="wmSizeAuto" checked onchange="toggleSizeMode()" style="accent-color:var(--accent)"> 自動
+          </label>
+          <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;color:var(--text2)">
+            <input type="radio" name="wmSizeMode" value="manual" id="wmSizeManual" onchange="toggleSizeMode()" style="accent-color:var(--accent)"> 手動
+          </label>
+        </div>
+        <div id="wmSizeManualPanel" style="display:none;margin-top:10px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <input type="range" id="wmFontSizeRange" min="10" max="120" value="32" oninput="document.getElementById('wmFontSizeNum').value=this.value;updateWmPreview()" style="flex:1;accent-color:var(--accent)">
+            <input type="number" id="wmFontSizeNum" value="32" min="10" max="120" oninput="document.getElementById('wmFontSizeRange').value=this.value;updateWmPreview()" style="width:64px" class="inp">
+            <span style="font-size:12px;color:var(--text3)">px</span>
+          </div>
         </div>
       </div>
-    </div>
-    <div style="margin-top:12px">
-      <div class="inp-label">即時預覽</div>
-      <div id="wmTextPreview" style="margin-top:6px;padding:16px 20px;background:linear-gradient(135deg,#2a4a6b,#1a2a3a);border-radius:10px;border:1px solid var(--border);font-size:16px;min-height:60px;display:flex;align-items:center">
-        存檔後查看預覽
+
+      <!-- Colors -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+        <div>
+          <div class="inp-label" style="margin-bottom:8px">文字顏色</div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <input type="color" id="wmFontColor" value="#ffffff" oninput="updateWmPreview()"
+              style="width:40px;height:36px;border-radius:8px;border:1px solid var(--border);cursor:pointer;padding:2px">
+            <div style="display:flex;gap:4px;flex-wrap:wrap">
+              <div style="width:24px;height:24px;border-radius:50%;background:#ffffff;cursor:pointer;border:2px solid var(--border)" onclick="setColor('wmFontColor','#ffffff')"></div>
+              <div style="width:24px;height:24px;border-radius:50%;background:#000000;cursor:pointer;border:2px solid var(--border)" onclick="setColor('wmFontColor','#000000')"></div>
+              <div style="width:24px;height:24px;border-radius:50%;background:#FFD700;cursor:pointer;border:2px solid var(--border)" onclick="setColor('wmFontColor','#FFD700')"></div>
+              <div style="width:24px;height:24px;border-radius:50%;background:#FF4444;cursor:pointer;border:2px solid var(--border)" onclick="setColor('wmFontColor','#FF4444')"></div>
+              <div style="width:24px;height:24px;border-radius:50%;background:#00CFFF;cursor:pointer;border:2px solid var(--border)" onclick="setColor('wmFontColor','#00CFFF')"></div>
+              <div style="width:24px;height:24px;border-radius:50%;background:#44FF88;cursor:pointer;border:2px solid var(--border)" onclick="setColor('wmFontColor','#44FF88')"></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="inp-label" style="margin-bottom:8px">陰影 / 外框顏色</div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <input type="color" id="wmShadowColor" value="#000000" oninput="updateWmPreview()"
+              style="width:40px;height:36px;border-radius:8px;border:1px solid var(--border);cursor:pointer;padding:2px">
+            <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;color:var(--text2)">
+              <input type="checkbox" id="wmNoShadow" onchange="updateWmPreview()" style="accent-color:var(--accent)"> 不要陰影
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Opacity & Position -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+        <div>
+          <div class="inp-label">透明度 <span id="wmOpacityVal">60</span>%</div>
+          <input type="range" id="wmOpacity" min="10" max="100" value="60" oninput="document.getElementById('wmOpacityVal').textContent=this.value;updateWmPreview()" style="width:100%;accent-color:var(--accent);margin-top:8px">
+        </div>
+        <div>
+          <div class="inp-label">位置</div>
+          <select class="inp" id="wmPos" style="padding:8px 12px;margin-top:6px" onchange="updateWmPreview()">
+            <option value="br">右下角</option>
+            <option value="bl">左下角</option>
+            <option value="tr">右上角</option>
+            <option value="tl">左上角</option>
+            <option value="center">正中央</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Preview -->
+      <div>
+        <div class="inp-label" style="margin-bottom:8px">即時預覽</div>
+        <div id="wmPreviewBox" style="position:relative;border-radius:12px;overflow:hidden;background:#555;min-height:160px;border:1px solid var(--border)">
+          <div style="position:absolute;inset:0;background:linear-gradient(135deg,#3a5a7a,#1a3a5a);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.2);font-size:12px">車輛照片預覽區</div>
+          <div id="wmPreviewText" style="position:absolute;padding:8px 12px;font-size:16px;font-weight:bold;white-space:pre-line;pointer-events:none;transition:all .2s"></div>
+        </div>
       </div>
     </div>
 
-    <button class="btn btn-primary" style="margin-top:14px" onclick="saveSettings()">儲存設定</button>
+    <button class="btn btn-primary" style="margin-top:16px;width:100%;justify-content:center" onclick="saveSettings()">💾 儲存所有設定</button>
   </div>
 
 </div>
@@ -643,12 +712,33 @@ window.onload = () => {
   renderInventory();
 
   // Load settings
-  const fields = ['storeName','storePhone','storeAddr','storeLine','wmFontStyle','wmFontSize','wmFontColor'];
-  fields.forEach(f => {
-    const saved = localStorage.getItem('kx_'+f);
-    const el = document.getElementById(f);
-    if (saved && el) el.value = saved;
-  });
+  const settingFields = ['storeName','storePhone','storeAddr','storeLine','wmFontStyle','wmFontColor','wmShadowColor','wmOpacity','wmPos'];
+  settingFields.forEach(f => { const saved=localStorage.getItem('kx_'+f); const el=document.getElementById(f); if(saved&&el) el.value=saved; });
+  const checkFields = ['wmEnabled','wmBold','wmItalic','wmNoShadow','showStoreName','showStorePhone','showStoreAddr','showStoreLine'];
+  checkFields.forEach(f => { const saved=localStorage.getItem('kx_'+f); const el=document.getElementById(f); if(saved&&el) el.checked=saved==='1'; });
+  const sizeMode = localStorage.getItem('kx_wmSizeMode') || 'auto';
+  const sizeRadio = document.querySelector(`input[name="wmSizeMode"][value="${sizeMode}"]`);
+  if (sizeRadio) sizeRadio.checked = true;
+  if (sizeMode === 'manual') {
+    const smPanel = document.getElementById('wmSizeManualPanel');
+    if (smPanel) smPanel.style.display = 'block';
+    const savedSize = localStorage.getItem('kx_wmFontSizeNum') || '32';
+    const numEl = document.getElementById('wmFontSizeNum');
+    const rangeEl = document.getElementById('wmFontSizeRange');
+    if (numEl) numEl.value = savedSize;
+    if (rangeEl) rangeEl.value = savedSize;
+  }
+  const opacityEl = document.getElementById('wmOpacity');
+  const opacityValEl = document.getElementById('wmOpacityVal');
+  if (opacityEl && opacityValEl) opacityValEl.textContent = opacityEl.value;
+  const wmEnabledEl = document.getElementById('wmEnabled');
+  if (wmEnabledEl && wmEnabledEl.checked) {
+    const track = document.getElementById('wmToggleTrack');
+    const thumb = document.getElementById('wmToggleThumb');
+    if (track) track.style.background = 'var(--accent)';
+    if (thumb) { thumb.style.transform = 'translateX(20px)'; thumb.style.background = '#fff'; }
+  }
+  setTimeout(updateWmPreview, 100);
 };
 
 // ============================================================
@@ -775,28 +865,47 @@ async function applyWatermark(imgFile) {
       }
 
       function drawLabels(lx, ly, lh) {
-        if (!wmText && !wmPhone) return;
-        const fontStyle = localStorage.getItem('kx_wmFontStyle') || "'Noto Sans TC', sans-serif";
-        const fontSizePref = localStorage.getItem('kx_wmFontSize') || 'auto';
-        const fontColor = localStorage.getItem('kx_wmFontColor') || '#ffffff';
-        const shadowColor = localStorage.getItem('kx_wmShadowColor') || '#000000';
+        const showName  = localStorage.getItem('kx_showStoreName')  !== '0';
+        const showPhone = localStorage.getItem('kx_showStorePhone') !== '0';
+        const showAddr  = localStorage.getItem('kx_showStoreAddr')  === '1';
+        const showLine  = localStorage.getItem('kx_showStoreLine')  === '1';
+        const sName  = showName  ? (localStorage.getItem('kx_storeName')  || '') : '';
+        const sPhone = showPhone ? (localStorage.getItem('kx_storePhone') || '') : '';
+        const sAddr  = showAddr  ? (localStorage.getItem('kx_storeAddr')  || '') : '';
+        const sLine  = showLine  ? (localStorage.getItem('kx_storeLine')  || '') : '';
+        const lines = [sName, sPhone, sAddr?'📍 '+sAddr:'', sLine?'💬 LINE：'+sLine:''].filter(Boolean);
+        if (!lines.length) return;
+
+        const fontStyle  = localStorage.getItem('kx_wmFontStyle')  || "'Noto Sans TC',sans-serif";
+        const fontColor  = localStorage.getItem('kx_wmFontColor')  || '#ffffff';
+        const shadowColor= localStorage.getItem('kx_wmShadowColor')|| '#000000';
+        const noShadow   = localStorage.getItem('kx_wmNoShadow')   === '1';
+        const bold       = localStorage.getItem('kx_wmBold')       !== '0';
+        const italic     = localStorage.getItem('kx_wmItalic')     === '1';
+        const sizeMode   = localStorage.getItem('kx_wmSizeMode')   || 'auto';
         let fs;
-        if (fontSizePref === 'auto') fs = Math.max(16, canvas.width * 0.025);
-        else if (fontSizePref === 'small') fs = Math.max(12, canvas.width * 0.018);
-        else if (fontSizePref === 'medium') fs = Math.max(18, canvas.width * 0.03);
-        else if (fontSizePref === 'large') fs = Math.max(24, canvas.width * 0.04);
-        else fs = Math.max(32, canvas.width * 0.055);
+        if (sizeMode === 'manual') {
+          fs = parseInt(localStorage.getItem('kx_wmFontSizeNum') || '32');
+          fs = Math.max(10, Math.min(120, fs));
+        } else {
+          fs = Math.max(16, canvas.width * 0.025);
+        }
 
         ctx.globalAlpha = opacity;
-        ctx.font = `bold ${fs}px ${fontStyle}`;
+        ctx.font = `${italic?'italic ':''} ${bold?'bold ':''} ${fs}px ${fontStyle}`;
         ctx.fillStyle = fontColor;
-        ctx.strokeStyle = shadowColor;
-        ctx.lineWidth = fs * 0.18;
         ctx.lineJoin = 'round';
         ctx.textAlign = 'left';
         let ty = ly + lh + fs * 1.4;
-        if (wmText)  { ctx.strokeText(wmText, lx, ty);  ctx.fillText(wmText, lx, ty);  ty += fs*1.4; }
-        if (wmPhone) { ctx.strokeText(wmPhone, lx, ty); ctx.fillText(wmPhone, lx, ty); }
+        lines.forEach(line => {
+          if (!noShadow) {
+            ctx.strokeStyle = shadowColor;
+            ctx.lineWidth = fs * 0.18;
+            ctx.strokeText(line, lx, ty);
+          }
+          ctx.fillText(line, lx, ty);
+          ty += fs * 1.4;
+        });
         ctx.globalAlpha = 1;
       }
 
@@ -1143,32 +1252,78 @@ function updateUsageBadge() {
 // ============================================================
 // SETTINGS
 // ============================================================
-function saveSettings() {
-  ['storeName','storePhone','storeAddr','storeLine','wmFontStyle','wmFontSize','wmFontColor','wmShadowColor'].forEach(f => {
-    const el = document.getElementById(f);
-    if (el) localStorage.setItem('kx_'+f, el.value);
-  });
+function toggleSizeMode() {
+  const isManual = document.getElementById('wmSizeManual').checked;
+  document.getElementById('wmSizeManualPanel').style.display = isManual ? 'block' : 'none';
   updateWmPreview();
-  showToast('✓ 設定已儲存，文案將自動帶入店家資訊');
+}
+
+function setColor(id, hex) {
+  document.getElementById(id).value = hex;
+  updateWmPreview();
+}
+
+function saveSettings() {
+  const fields = ['storeName','storePhone','storeAddr','storeLine','wmFontStyle','wmFontColor','wmShadowColor','wmOpacity','wmPos'];
+  fields.forEach(f => { const el=document.getElementById(f); if(el) localStorage.setItem('kx_'+f, el.value); });
+  const checks = ['wmEnabled','wmBold','wmItalic','wmNoShadow','showStoreName','showStorePhone','showStoreAddr','showStoreLine'];
+  checks.forEach(f => { const el=document.getElementById(f); if(el) localStorage.setItem('kx_'+f, el.checked?'1':'0'); });
+  const sizeMode = document.querySelector('input[name="wmSizeMode"]:checked')?.value || 'auto';
+  localStorage.setItem('kx_wmSizeMode', sizeMode);
+  if (sizeMode === 'manual') localStorage.setItem('kx_wmFontSizeNum', document.getElementById('wmFontSizeNum')?.value || '32');
+  // Update toggle UI
+  const enabled = document.getElementById('wmEnabled').checked;
+  document.getElementById('wmToggleTrack').style.background = enabled ? 'var(--accent)' : 'var(--bg4)';
+  document.getElementById('wmToggleThumb').style.transform = enabled ? 'translateX(20px)' : 'none';
+  document.getElementById('wmToggleThumb').style.background = enabled ? '#fff' : 'var(--text3)';
+  updateWmPreview();
+  showToast('✓ 設定已儲存');
 }
 
 function updateWmPreview() {
-  const el = document.getElementById('wmTextPreview');
-  if (!el) return;
-  const fontStyle = document.getElementById('wmFontStyle')?.value || "'Noto Sans TC', sans-serif";
-  const fontSizePref = document.getElementById('wmFontSize')?.value || 'auto';
+  const box = document.getElementById('wmPreviewBox');
+  const el = document.getElementById('wmPreviewText');
+  if (!el || !box) return;
+
+  const enabled = document.getElementById('wmEnabled')?.checked;
+  if (!enabled) { el.textContent = ''; return; }
+
+  const name = document.getElementById('showStoreName')?.checked ? (document.getElementById('storeName')?.value || '') : '';
+  const phone = document.getElementById('showStorePhone')?.checked ? (document.getElementById('storePhone')?.value || '') : '';
+  const addr = document.getElementById('showStoreAddr')?.checked ? (document.getElementById('storeAddr')?.value || '') : '';
+  const line = document.getElementById('showStoreLine')?.checked ? (document.getElementById('storeLine')?.value || '') : '';
+
+  const lines = [name, phone, addr ? '📍 '+addr : '', line ? '💬 LINE：'+line : ''].filter(Boolean);
+  const text = lines.join('\n');
+
+  const fontStyle = document.getElementById('wmFontStyle')?.value || "'Noto Sans TC',sans-serif";
+  const bold = document.getElementById('wmBold')?.checked;
+  const italic = document.getElementById('wmItalic')?.checked;
   const fontColor = document.getElementById('wmFontColor')?.value || '#ffffff';
   const shadowColor = document.getElementById('wmShadowColor')?.value || '#000000';
-  const wmText = document.getElementById('wmText')?.value || document.getElementById('storeName')?.value || '店家名稱';
-  const wmPhone = document.getElementById('wmPhone')?.value || document.getElementById('storePhone')?.value || '電話號碼';
-  const sizeMap = { auto:'18px', small:'13px', medium:'20px', large:'26px', xlarge:'34px' };
-  const fs = sizeMap[fontSizePref] || '18px';
+  const noShadow = document.getElementById('wmNoShadow')?.checked;
+  const opacity = (parseInt(document.getElementById('wmOpacity')?.value || '60')) / 100;
+  const pos = document.getElementById('wmPos')?.value || 'br';
+  const sizeMode = document.querySelector('input[name="wmSizeMode"]:checked')?.value || 'auto';
+  const manualSize = document.getElementById('wmFontSizeNum')?.value || '32';
+  const fs = sizeMode === 'manual' ? manualSize+'px' : '16px';
+
   el.style.fontFamily = fontStyle;
+  el.style.fontWeight = bold ? 'bold' : 'normal';
+  el.style.fontStyle = italic ? 'italic' : 'normal';
   el.style.fontSize = fs;
   el.style.color = fontColor;
-  el.style.fontWeight = 'bold';
-  el.style.textShadow = `1px 1px 0 ${shadowColor}, -1px -1px 0 ${shadowColor}, 1px -1px 0 ${shadowColor}, -1px 1px 0 ${shadowColor}, 2px 2px 4px ${shadowColor}`;
-  el.textContent = `${wmText}　${wmPhone}`;
+  el.style.opacity = opacity;
+  el.style.textShadow = noShadow ? 'none' : `1px 1px 0 ${shadowColor},-1px -1px 0 ${shadowColor},1px -1px 0 ${shadowColor},-1px 1px 0 ${shadowColor},2px 2px 4px ${shadowColor}`;
+  el.textContent = text || '店家名稱\n聯絡電話';
+
+  // Position
+  el.style.top=''; el.style.bottom=''; el.style.left=''; el.style.right=''; el.style.transform='';
+  if (pos==='br') { el.style.bottom='8px'; el.style.right='8px'; el.style.textAlign='right'; }
+  else if (pos==='bl') { el.style.bottom='8px'; el.style.left='8px'; el.style.textAlign='left'; }
+  else if (pos==='tr') { el.style.top='8px'; el.style.right='8px'; el.style.textAlign='right'; }
+  else if (pos==='tl') { el.style.top='8px'; el.style.left='8px'; el.style.textAlign='left'; }
+  else { el.style.top='50%'; el.style.left='50%'; el.style.transform='translate(-50%,-50%)'; el.style.textAlign='center'; }
 }
 
 // ============================================================
