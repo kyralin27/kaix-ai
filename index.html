@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KaiX AI｜二手車智慧上架系統</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;700&family=DM+Mono:wght@400;500&family=Playfair+Display:wght@700&family=Oswald:wght@700&family=Roboto:wght@700&family=Montserrat:wght@700&family=Raleway:wght@700&family=Poppins:wght@700&family=Nunito:wght@700&family=Open+Sans:wght@700&family=Lato:wght@700&family=Ubuntu:wght@700&family=Bebas+Neue&family=Anton&family=Bangers&family=Pacifico&family=Dancing+Script:wght@700&family=Permanent+Marker&family=Caveat:wght@700&family=Righteous&family=Russo+One&family=Merriweather:wght@700&family=Lora:wght@700&family=Libre+Baskerville:wght@700&family=Source+Code+Pro:wght@700&family=Fira+Code:wght@700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #0b0d11;
@@ -490,6 +490,103 @@ input[type=range]{width:100%;accent-color:var(--accent)}
         <input class="inp" type="text" id="storeLine" placeholder="例：@kaixauto">
       </div>
     </div>
+
+    <hr class="divider">
+    <div style="font-size:12px;font-weight:500;color:var(--text3);margin-bottom:12px;letter-spacing:1px;text-transform:uppercase">浮水印文字設定</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+      <div style="grid-column:1/-1">
+        <div class="inp-label">字型（中文）</div>
+        <select class="inp" id="wmFontStyle" style="padding:8px 12px" onchange="updateWmPreview()">
+          <optgroup label="── 中文推薦 ──">
+            <option value="'Noto Sans TC', sans-serif">Noto Sans TC｜現代黑體</option>
+            <option value="'Microsoft JhengHei', 'PingFang TC', sans-serif">微軟正黑體</option>
+            <option value="'PingFang TC', sans-serif">蘋方（Apple）</option>
+            <option value="'Source Han Sans TC', sans-serif">思源黑體</option>
+            <option value="'DFKai-SB', serif">標楷體</option>
+            <option value="'Noto Serif TC', serif">Noto Serif TC｜明體</option>
+            <option value="'cwTeXMing', serif">cwTeX 明體</option>
+            <option value="'cwTeXKai', serif">cwTeX 楷體</option>
+            <option value="'AR PL UMing TW', serif">文鼎明體</option>
+          </optgroup>
+          <optgroup label="── 英文 Serif ──">
+            <option value="Georgia, serif">Georgia</option>
+            <option value="'Times New Roman', serif">Times New Roman</option>
+            <option value="Garamond, serif">Garamond</option>
+            <option value="Palatino, serif">Palatino</option>
+            <option value="'Book Antiqua', serif">Book Antiqua</option>
+            <option value="'Playfair Display', serif">Playfair Display</option>
+            <option value="'Libre Baskerville', serif">Libre Baskerville</option>
+            <option value="'Merriweather', serif">Merriweather</option>
+            <option value="'Lora', serif">Lora</option>
+          </optgroup>
+          <optgroup label="── 英文 Sans-Serif ──">
+            <option value="'Helvetica Neue', Helvetica, sans-serif">Helvetica Neue</option>
+            <option value="'Arial Black', sans-serif">Arial Black（粗）</option>
+            <option value="Impact, sans-serif">Impact（衝擊）</option>
+            <option value="'Oswald', sans-serif">Oswald</option>
+            <option value="'Roboto', sans-serif">Roboto</option>
+            <option value="'Montserrat', sans-serif">Montserrat</option>
+            <option value="'Raleway', sans-serif">Raleway</option>
+            <option value="'Poppins', sans-serif">Poppins</option>
+            <option value="'Nunito', sans-serif">Nunito</option>
+            <option value="'Open Sans', sans-serif">Open Sans</option>
+            <option value="'Lato', sans-serif">Lato</option>
+            <option value="'Ubuntu', sans-serif">Ubuntu</option>
+          </optgroup>
+          <optgroup label="── 英文 Display / 特色 ──">
+            <option value="'Bebas Neue', sans-serif">Bebas Neue（全大寫）</option>
+            <option value="'Anton', sans-serif">Anton（粗黑）</option>
+            <option value="'Bangers', cursive">Bangers（漫畫風）</option>
+            <option value="'Pacifico', cursive">Pacifico（圓潤手寫）</option>
+            <option value="'Dancing Script', cursive">Dancing Script（優雅）</option>
+            <option value="'Permanent Marker', cursive">Permanent Marker（麥克筆）</option>
+            <option value="'Caveat', cursive">Caveat（手寫）</option>
+            <option value="'Righteous', sans-serif">Righteous（復古）</option>
+            <option value="'Russo One', sans-serif">Russo One（科技感）</option>
+          </optgroup>
+          <optgroup label="── 等寬 Monospace ──">
+            <option value="'Courier New', monospace">Courier New</option>
+            <option value="'Source Code Pro', monospace">Source Code Pro</option>
+            <option value="'Fira Code', monospace">Fira Code</option>
+          </optgroup>
+        </select>
+      </div>
+      <div>
+        <div class="inp-label">字體大小</div>
+        <select class="inp" id="wmFontSize" style="padding:8px 12px" onchange="updateWmPreview()">
+          <option value="auto">自動（依照片大小）</option>
+          <option value="small">小</option>
+          <option value="medium">中</option>
+          <option value="large">大</option>
+          <option value="xlarge">超大</option>
+        </select>
+      </div>
+      <div>
+        <div class="inp-label">文字顏色</div>
+        <div style="display:flex;gap:8px;align-items:center;margin-top:4px">
+          <input type="color" id="wmFontColor" value="#ffffff"
+            style="width:44px;height:36px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);cursor:pointer;padding:2px"
+            oninput="updateWmPreview()">
+          <div style="font-size:12px;color:var(--text3)">點擊選色<br>任意顏色</div>
+        </div>
+      </div>
+      <div>
+        <div class="inp-label">陰影顏色</div>
+        <div style="display:flex;gap:8px;align-items:center;margin-top:4px">
+          <input type="color" id="wmShadowColor" value="#000000"
+            style="width:44px;height:36px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);cursor:pointer;padding:2px"
+            oninput="updateWmPreview()">
+          <div style="font-size:12px;color:var(--text3)">文字外框<br>增加對比</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:12px">
+      <div class="inp-label">即時預覽</div>
+      <div id="wmTextPreview" style="margin-top:6px;padding:16px 20px;background:linear-gradient(135deg,#2a4a6b,#1a2a3a);border-radius:10px;border:1px solid var(--border);font-size:16px;min-height:60px;display:flex;align-items:center">
+        存檔後查看預覽
+      </div>
+    </div>
+
     <button class="btn btn-primary" style="margin-top:14px" onclick="saveSettings()">儲存設定</button>
   </div>
 
@@ -546,10 +643,11 @@ window.onload = () => {
   renderInventory();
 
   // Load settings
-  const fields = ['storeName','storePhone','storeAddr','storeLine'];
+  const fields = ['storeName','storePhone','storeAddr','storeLine','wmFontStyle','wmFontSize','wmFontColor'];
   fields.forEach(f => {
     const saved = localStorage.getItem('kx_'+f);
-    if (saved) document.getElementById(f).value = saved;
+    const el = document.getElementById(f);
+    if (saved && el) el.value = saved;
   });
 };
 
@@ -678,12 +776,23 @@ async function applyWatermark(imgFile) {
 
       function drawLabels(lx, ly, lh) {
         if (!wmText && !wmPhone) return;
-        const fs = Math.max(16, canvas.width * 0.025);
+        const fontStyle = localStorage.getItem('kx_wmFontStyle') || "'Noto Sans TC', sans-serif";
+        const fontSizePref = localStorage.getItem('kx_wmFontSize') || 'auto';
+        const fontColor = localStorage.getItem('kx_wmFontColor') || '#ffffff';
+        const shadowColor = localStorage.getItem('kx_wmShadowColor') || '#000000';
+        let fs;
+        if (fontSizePref === 'auto') fs = Math.max(16, canvas.width * 0.025);
+        else if (fontSizePref === 'small') fs = Math.max(12, canvas.width * 0.018);
+        else if (fontSizePref === 'medium') fs = Math.max(18, canvas.width * 0.03);
+        else if (fontSizePref === 'large') fs = Math.max(24, canvas.width * 0.04);
+        else fs = Math.max(32, canvas.width * 0.055);
+
         ctx.globalAlpha = opacity;
-        ctx.font = `bold ${fs}px sans-serif`;
-        ctx.fillStyle = '#fff';
-        ctx.strokeStyle = 'rgba(0,0,0,0.6)';
-        ctx.lineWidth = fs * 0.15;
+        ctx.font = `bold ${fs}px ${fontStyle}`;
+        ctx.fillStyle = fontColor;
+        ctx.strokeStyle = shadowColor;
+        ctx.lineWidth = fs * 0.18;
+        ctx.lineJoin = 'round';
         ctx.textAlign = 'left';
         let ty = ly + lh + fs * 1.4;
         if (wmText)  { ctx.strokeText(wmText, lx, ty);  ctx.fillText(wmText, lx, ty);  ty += fs*1.4; }
@@ -906,8 +1015,23 @@ function renderResult(car) {
       </div>`).join('');
   }
 
-  // Copy texts
-  copyTexts = [car['文案_專業版']||'', car['文案_FB版']||'', car['文案_誠信版']||''];
+  // Copy texts - append store info
+  const sName = localStorage.getItem('kx_storeName') || '';
+  const sPhone = localStorage.getItem('kx_storePhone') || '';
+  const sAddr = localStorage.getItem('kx_storeAddr') || '';
+  const sLine = localStorage.getItem('kx_storeLine') || '';
+  const storeFooter = [
+    sName ? `🏪 ${sName}` : '',
+    sPhone ? `📞 ${sPhone}` : '',
+    sLine ? `💬 LINE：${sLine}` : '',
+    sAddr ? `📍 ${sAddr}` : ''
+  ].filter(Boolean).join('\n');
+
+  copyTexts = [
+    (car['文案_專業版']||'') + (storeFooter ? '\n\n' + storeFooter : ''),
+    (car['文案_FB版']||'') + (storeFooter ? '\n\n' + storeFooter : ''),
+    (car['文案_誠信版']||'') + (storeFooter ? '\n\n' + storeFooter : '')
+  ];
   document.getElementById('copyContents').innerHTML = copyTexts.map((t,i)=>`
     <div class="copy-content ${i===0?'show':''}" id="ct${i}">
       <button class="btn-copy" id="cb${i}" onclick="doCopy(${i})">複製</button>${t}
@@ -1020,10 +1144,31 @@ function updateUsageBadge() {
 // SETTINGS
 // ============================================================
 function saveSettings() {
-  ['storeName','storePhone','storeAddr','storeLine'].forEach(f => {
-    localStorage.setItem('kx_'+f, document.getElementById(f).value);
+  ['storeName','storePhone','storeAddr','storeLine','wmFontStyle','wmFontSize','wmFontColor','wmShadowColor'].forEach(f => {
+    const el = document.getElementById(f);
+    if (el) localStorage.setItem('kx_'+f, el.value);
   });
-  showToast('✓ 設定已儲存');
+  updateWmPreview();
+  showToast('✓ 設定已儲存，文案將自動帶入店家資訊');
+}
+
+function updateWmPreview() {
+  const el = document.getElementById('wmTextPreview');
+  if (!el) return;
+  const fontStyle = document.getElementById('wmFontStyle')?.value || "'Noto Sans TC', sans-serif";
+  const fontSizePref = document.getElementById('wmFontSize')?.value || 'auto';
+  const fontColor = document.getElementById('wmFontColor')?.value || '#ffffff';
+  const shadowColor = document.getElementById('wmShadowColor')?.value || '#000000';
+  const wmText = document.getElementById('wmText')?.value || document.getElementById('storeName')?.value || '店家名稱';
+  const wmPhone = document.getElementById('wmPhone')?.value || document.getElementById('storePhone')?.value || '電話號碼';
+  const sizeMap = { auto:'18px', small:'13px', medium:'20px', large:'26px', xlarge:'34px' };
+  const fs = sizeMap[fontSizePref] || '18px';
+  el.style.fontFamily = fontStyle;
+  el.style.fontSize = fs;
+  el.style.color = fontColor;
+  el.style.fontWeight = 'bold';
+  el.style.textShadow = `1px 1px 0 ${shadowColor}, -1px -1px 0 ${shadowColor}, 1px -1px 0 ${shadowColor}, -1px 1px 0 ${shadowColor}, 2px 2px 4px ${shadowColor}`;
+  el.textContent = `${wmText}　${wmPhone}`;
 }
 
 // ============================================================
