@@ -1315,22 +1315,12 @@ async function applyWatermark(imgFile) {
         ctx.putImageData(id, 0, 0);
       } catch(e) {}
 
-      const wmEnabled = document.getElementById('wmEnabled').checked;
+      const wmEnabled = localStorage.getItem('kx_wmEnabled') === '1';
       if (!wmEnabled) { resolve(canvas.toDataURL('image/jpeg', 0.92)); return; }
 
-      const opacity = parseInt(document.getElementById('wmOpacity').value) / 100;
-      const pos = document.getElementById('wmPos').value;
-      const wmText = document.getElementById('wmText').value;
-      const wmPhone = document.getElementById('wmPhone').value;
+      const opacityVal = parseInt(localStorage.getItem('kx_wmOpacity') || '60');
+      const opacity = opacityVal / 100;
       const pad = canvas.width * 0.03;
-
-      function getXY(lw, lh) {
-        if (pos==='br') return [canvas.width-lw-pad, canvas.height-lh-pad];
-        if (pos==='bl') return [pad, canvas.height-lh-pad];
-        if (pos==='tr') return [canvas.width-lw-pad, pad];
-        if (pos==='tl') return [pad, pad];
-        return [(canvas.width-lw)/2, (canvas.height-lh)/2];
-      }
 
       function drawLabels(lx, ly, lh) {
         const fontStyle  = localStorage.getItem('kx_wmFontStyle')   || "'Microsoft JhengHei','PingFang TC',sans-serif";
@@ -1340,6 +1330,7 @@ async function applyWatermark(imgFile) {
         const bold       = localStorage.getItem('kx_wmBold')        !== '0';
         const italic     = localStorage.getItem('kx_wmItalic')      === '1';
         const sizeMode   = localStorage.getItem('kx_wmSizeMode')    || 'auto';
+        const textOpacity= parseInt(localStorage.getItem('kx_wmTextOpacity') || '100') / 100;
         let fs = sizeMode === 'manual'
           ? Math.max(10, Math.min(120, parseInt(localStorage.getItem('kx_wmFontSizeNum') || '32')))
           : Math.max(16, canvas.width * 0.025);
@@ -1366,22 +1357,22 @@ async function applyWatermark(imgFile) {
         ctx.fillStyle = fontColor;
         ctx.lineJoin = 'round';
 
-        entries.forEach(entry => {
-          // Use saved position if available, else default stacked
-          const savedPos = JSON.parse(localStorage.getItem('kx_wmPos_'+entry.key) || 'null');
-          const previewBox = document.getElementById('wmPreviewBox');
-          let ex = lx, ey;
+        const previewBox = document.getElementById('wmPreviewBox');
+        const pw = previewBox ? (previewBox.offsetWidth || 300) : 300;
+        const ph = previewBox ? (previewBox.offsetHeight || 240) : 240;
 
-          if (savedPos && previewBox) {
-            const pw = previewBox.offsetWidth || 300;
-            const ph = previewBox.offsetHeight || 240;
+        entries.forEach((entry, idx) => {
+          const savedPos = JSON.parse(localStorage.getItem('kx_wmPos_'+entry.key) || 'null');
+          let ex, ey;
+          if (savedPos) {
             ex = (savedPos.x / pw) * canvas.width;
             ey = (savedPos.y / ph) * canvas.height + fs;
           } else {
-            ey = ly + lh + fs * 1.4 + entries.indexOf(entry) * fs * 1.4;
+            ex = lx;
+            ey = ly + lh + fs * 1.4 + idx * fs * 1.4;
           }
 
-          ctx.globalAlpha = opacity;
+          ctx.globalAlpha = textOpacity;
           if (hasShadow) {
             ctx.strokeStyle = shadowColor;
             ctx.lineWidth = fs * 0.18;
@@ -1400,7 +1391,7 @@ async function applyWatermark(imgFile) {
         logo.onload = () => {
           const lw = canvas.width * 0.18;
           const lh = (logo.height / logo.width) * lw;
-          const [lx, ly] = getXY(lw, lh);
+          const lx = pad, ly = canvas.height - lh - pad;
           ctx.globalAlpha = opacity;
           ctx.drawImage(logo, lx, ly, lw, lh);
           ctx.globalAlpha = 1;
@@ -1409,7 +1400,7 @@ async function applyWatermark(imgFile) {
         };
         logo.src = logoDataUrl;
       } else {
-        drawLabels(...getXY(200, 0), 0);
+        drawLabels(pad, canvas.height * 0.7, 0);
         finish();
       }
     };
@@ -1611,8 +1602,9 @@ function renderResult(car) {
   // Hashtags
   const tags = car['hashtags'] || ['#二手車','#中古車','#好車推薦','#二手好車'];
   renderHashtags(tags);
+  const hashtagStr = tags.join(' ');
 
-  // Copy texts - append store info
+  // Copy texts - append store info + hashtags
   const sName = localStorage.getItem('kx_storeName') || '';
   const sPhone = localStorage.getItem('kx_storePhone') || '';
   const sAddr = localStorage.getItem('kx_storeAddr') || '';
@@ -1625,9 +1617,9 @@ function renderResult(car) {
   ].filter(Boolean).join('\n');
 
   copyTexts = [
-    (car['文案_專業版']||'') + (storeFooter ? '\n\n' + storeFooter : ''),
-    (car['文案_FB版']||'') + (storeFooter ? '\n\n' + storeFooter : ''),
-    (car['文案_誠信版']||'') + (storeFooter ? '\n\n' + storeFooter : '')
+    (car['文案_專業版']||'') + (storeFooter ? '\n\n' + storeFooter : '') + '\n\n' + hashtagStr,
+    (car['文案_FB版']||'')   + (storeFooter ? '\n\n' + storeFooter : '') + '\n\n' + hashtagStr,
+    (car['文案_誠信版']||'') + (storeFooter ? '\n\n' + storeFooter : '') + '\n\n' + hashtagStr,
   ];
   document.getElementById('copyContents').innerHTML = copyTexts.map((t,i)=>`
     <div class="copy-content ${i===0?'show':''}" id="ct${i}">
@@ -1679,10 +1671,14 @@ function switchTab(idx) {
   document.querySelectorAll('.copy-content').forEach((c,i)=>c.classList.toggle('show',i===idx));
 }
 function doCopy(idx) {
-  navigator.clipboard.writeText(copyTexts[idx]).then(()=>{
+  // Rebuild copy text with current hashtags
+  const hashtagStr = activeHashtags.join(' ');
+  // Remove old hashtag line and append current
+  let base = copyTexts[idx].replace(/\n\n#[^\n].*/s, '');
+  const textToCopy = base + (hashtagStr ? '\n\n' + hashtagStr : '');
+  navigator.clipboard.writeText(textToCopy).then(() => {
     const btn = document.getElementById('cb'+idx);
-    btn.textContent = '已複製 ✓'; btn.classList.add('copied');
-    setTimeout(()=>{ btn.textContent='複製'; btn.classList.remove('copied'); },2000);
+    if (btn) { btn.textContent='已複製 ✓'; btn.classList.add('copied'); setTimeout(()=>{btn.textContent='複製';btn.classList.remove('copied')},2000); }
   });
 }
 function dlPhoto(idx) {
