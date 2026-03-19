@@ -4,111 +4,303 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KaiX AI｜二手車智慧上架系統</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Noto+Serif+TC:wght@400;700&family=Ma+Shan+Zheng&family=ZCOOL+KuaiLe&family=ZCOOL+XiaoWei&family=Liu+Jian+Mao+Cao&family=Long+Cang&family=Playfair+Display:wght@700&family=Merriweather:wght@700&family=Lora:wght@700&family=Libre+Baskerville:wght@700&family=Oswald:wght@700&family=Roboto:wght@700&family=Montserrat:wght@700&family=Raleway:wght@700&family=Poppins:wght@700&family=Nunito:wght@700&family=Open+Sans:wght@700&family=Lato:wght@700&family=Ubuntu:wght@700&family=Exo+2:wght@700&family=Quicksand:wght@700&family=Bebas+Neue&family=Anton&family=Bangers&family=Righteous&family=Russo+One&family=Passion+One&family=Black+Han+Sans&family=Pacifico&family=Dancing+Script:wght@700&family=Permanent+Marker&family=Caveat:wght@700&family=Satisfy&family=Kaushan+Script&family=Yellowtail&family=Sacramento&family=Great+Vibes&family=Alex+Brush&family=Allura&family=Amatic+SC:wght@700&family=Source+Code+Pro:wght@700&family=Fira+Code:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;700&family=Noto+Serif+TC:wght@300;400;700&family=Ma+Shan+Zheng&family=ZCOOL+KuaiLe&family=ZCOOL+XiaoWei&family=Liu+Jian+Mao+Cao&family=Long+Cang&family=Zhi+Mang+Xing&family=Hachi+Maru+Pop&family=Kaisei+Decol:wght@400;700&family=Playfair+Display:wght@400;700&family=Merriweather:wght@300;700&family=Lora:wght@400;700&family=Libre+Baskerville:wght@400;700&family=Cormorant+Garamond:wght@300;700&family=EB+Garamond:wght@400;700&family=Crimson+Text:wght@400;700&family=Spectral:wght@300;700&family=Oswald:wght@300;700&family=Roboto:wght@100;300;700&family=Montserrat:wght@100;300;700&family=Raleway:wght@100;300;700&family=Poppins:wght@300;700&family=Nunito:wght@300;700&family=Open+Sans:wght@300;700&family=Lato:wght@300;700&family=Ubuntu:wght@300;700&family=Exo+2:wght@300;700&family=Quicksand:wght@300;700&family=Work+Sans:wght@300;700&family=Josefin+Sans:wght@300;700&family=Mulish:wght@300;700&family=Karla:wght@300;700&family=DM+Sans:wght@300;700&family=Inter:wght@300;700&family=Plus+Jakarta+Sans:wght@300;700&family=Bebas+Neue&family=Anton&family=Bangers&family=Righteous&family=Russo+One&family=Passion+One&family=Black+Han+Sans&family=Alfa+Slab+One&family=Boogaloo&family=Fredoka+One&family=Lilita+One&family=Titan+One&family=Pacifico&family=Dancing+Script:wght@400;700&family=Permanent+Marker&family=Caveat:wght@400;700&family=Satisfy&family=Kaushan+Script&family=Yellowtail&family=Sacramento&family=Great+Vibes&family=Alex+Brush&family=Allura&family=Amatic+SC:wght@400;700&family=Shadows+Into+Light&family=Rock+Salt&family=Indie+Flower&family=Patrick+Hand&family=Architects+Daughter&family=Covered+By+Your+Grace&family=Nothing+You+Could+Do&family=Homemade+Apple&family=Reenie+Beanie&family=Neucha&family=Bad+Script&family=Marck+Script&family=Courgette&family=Source+Code+Pro:wght@300;700&family=Fira+Code:wght@300;700&family=JetBrains+Mono:wght@300;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
+/* =====================================================
+   KaiX AI — Design System v2
+   品牌色：灰藍 #2F3A4C ＋ 金色 #C8A45D
+   風格：高端顧問 + AI SaaS，淺色三層背景
+   ===================================================== */
 :root {
-  --bg: #FAFAFA;
-  --bg2: #FFFFFF;
-  --bg3: #F2F4F7;
-  --bg4: #E8EBF0;
-  --border: rgba(47,58,76,0.12);
-  --border2: rgba(47,58,76,0.22);
-  --accent: #2F3A4C;
-  --accent2: #C8A45D;
-  --gold: #C8A45D;
-  --green: #2a7a5a;
-  --red: #c0392b;
-  --text: #1a2233;
-  --text2: #4a5568;
-  --text3: #8896aa;
-  --r: 14px;
+  /* 背景三層 */
+  --bg-main:    #F7F8FA;
+  --bg-surface: #FFFFFF;
+  --bg-section: #F0F3F7;
+  /* 品牌色 */
+  --color-primary:       #2F3A4C;
+  --color-accent-gold:   #C8A45D;
+  --color-accent-gold-light: #D6B97A;
+  /* 漸層 */
+  --gradient-light-tech: linear-gradient(135deg,#FFFFFF 0%,#F7F8FA 55%,#E9EDF2 100%);
+  --gradient-gold:       linear-gradient(135deg,#B8924F 0%,#C8A45D 45%,#E0C48A 100%);
+  --gradient-primary:    linear-gradient(135deg,#2F3A4C 0%,#3d4f66 100%);
+  /* 文字 */
+  --text-primary:   #243142;
+  --text-secondary: #5B6878;
+  --text-muted:     #8A97A6;
+  /* 邊框 */
+  --border-light:  #E3E8EF;
+  --border-medium: #D8DEE6;
+  /* 狀態色 */
+  --success: #3FA76F;
+  --warning: #E6A23C;
+  --danger:  #E5484D;
+  /* 相容舊變數 */
+  --bg:    var(--bg-main);
+  --bg2:   var(--bg-surface);
+  --bg3:   var(--bg-section);
+  --bg4:   #E3E8EF;
+  --border:  var(--border-light);
+  --border2: var(--border-medium);
+  --accent:  var(--color-primary);
+  --accent2: var(--color-accent-gold);
+  --gold:    var(--color-accent-gold);
+  --green:   var(--success);
+  --red:     var(--danger);
+  --text:    var(--text-primary);
+  --text2:   var(--text-secondary);
+  --text3:   var(--text-muted);
+  --r: 12px;
 }
+
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-serif;min-height:100vh;overflow-x:hidden}
+body{
+  background:var(--bg-main);
+  color:var(--text-primary);
+  font-family:'Noto Sans TC',sans-serif;
+  font-weight:300;
+  min-height:100vh;
+  overflow-x:hidden;
+  font-size:15px;
+  line-height:1.7;
+}
 
-/* Grid bg */
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(200,164,93,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(200,164,93,0.06) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
+/* 主背景科技漸層 */
+body::before{
+  content:'';position:fixed;inset:0;
+  background:var(--gradient-light-tech);
+  pointer-events:none;z-index:0;
+}
+/* 細緻網格紋理 */
+body::after{
+  content:'';position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(47,58,76,0.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(47,58,76,0.03) 1px,transparent 1px);
+  background-size:40px 40px;
+  pointer-events:none;z-index:0;
+}
 
-/* Orbs */
-.orb{position:fixed;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:0}
-.o1{width:700px;height:700px;background:rgba(200,164,93,0.06);top:-250px;right:-150px}
-.o2{width:500px;height:500px;background:rgba(47,58,76,0.04);bottom:50px;left:-150px}
-
-/* Layout */
-header{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 32px;border-bottom:1px solid var(--border);background:rgba(250,250,250,0.92);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(47,58,76,0.1)}
-.logo{font-family:'DM Mono',monospace;font-size:20px;font-weight:500;background:linear-gradient(135deg,#2F3A4C,#C8A45D);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.logo span{-webkit-text-fill-color:var(--gold)}
+/* Header */
+header{
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 32px;
+  border-bottom:1px solid var(--border-light);
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(20px);
+  box-shadow:0 1px 4px rgba(47,58,76,0.08);
+}
+.logo{
+  font-family:'Noto Sans TC',sans-serif;
+  font-size:20px;font-weight:700;letter-spacing:-0.5px;
+  background:var(--gradient-primary);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.logo span{
+  background:var(--gradient-gold);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
 .header-right{display:flex;align-items:center;gap:12px}
-.usage-badge{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--text2);font-weight:500}
-.usage-dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
-.nav-tabs{display:flex;border-bottom:1px solid var(--border);background:rgba(250,250,250,0.95);backdrop-filter:blur(10px);position:sticky;top:57px;z-index:90;padding:0 32px;box-shadow:0 1px 0 rgba(47,58,76,0.08)}
-.nav-tab{padding:14px 20px;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap}
-.nav-tab:hover{color:var(--text)}
-.nav-tab.active{color:var(--accent2);border-bottom-color:var(--accent2);font-weight:600}
+.usage-badge{
+  display:flex;align-items:center;gap:6px;
+  background:var(--bg-section);
+  border:1px solid var(--border-light);
+  border-radius:20px;padding:5px 14px;
+  font-size:12px;color:var(--text-secondary);font-weight:500;
+}
+.usage-dot{width:7px;height:7px;border-radius:50%;background:var(--success);box-shadow:0 0 6px rgba(63,167,111,0.5)}
+
+/* Nav */
+.nav-tabs{
+  display:flex;
+  border-bottom:1px solid var(--border-light);
+  background:rgba(255,255,255,0.98);
+  backdrop-filter:blur(10px);
+  position:sticky;top:57px;z-index:90;
+  padding:0 32px;
+  box-shadow:0 2px 8px rgba(47,58,76,0.06);
+}
+.nav-tab{
+  padding:14px 22px;font-size:13px;font-weight:500;
+  color:var(--text-muted);cursor:pointer;
+  border-bottom:2px solid transparent;
+  transition:all .2s;white-space:nowrap;
+}
+.nav-tab:hover{color:var(--text-primary)}
+.nav-tab.active{
+  color:var(--color-accent-gold);
+  border-bottom-color:var(--color-accent-gold);
+  font-weight:600;
+}
 
 main{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:36px 24px 100px}
 
 /* Cards */
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-bottom:20px;transition:border-color .2s;box-shadow:0 2px 8px rgba(47,58,76,0.06)}
-.card:focus-within{border-color:rgba(79,142,247,0.3)}
-.card-title{font-size:13px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-bottom:16px;display:flex;align-items:center;gap:8px;padding-bottom:10px;border-bottom:2px solid var(--gold)}
-.card-title-icon{font-size:14px}
+.card{
+  background:var(--bg-surface);
+  border:1px solid var(--border-light);
+  border-radius:var(--r);
+  padding:24px;margin-bottom:20px;
+  transition:transform .2s,box-shadow .2s,border-color .2s;
+  box-shadow:0 4px 12px rgba(47,58,76,0.08);
+}
+.card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(47,58,76,0.12);
+}
+.card:focus-within{border-color:var(--color-accent-gold)}
+.card-title{
+  font-size:13px;font-weight:600;letter-spacing:1px;
+  text-transform:uppercase;color:var(--color-primary);
+  margin-bottom:18px;
+  display:flex;align-items:center;gap:8px;
+  padding-bottom:12px;
+  border-bottom:2px solid var(--color-accent-gold);
+  font-weight:400;
+}
+.card-title-icon{font-size:15px}
 
 /* Inputs */
-.inp{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:11px 14px;color:var(--text);font-family:'Noto Sans TC',sans-serif;font-size:13px;outline:none;transition:border-color .2s;box-shadow:inset 0 1px 3px rgba(47,58,76,0.05)}
-.inp:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,164,93,0.12)}
-.inp::placeholder{color:var(--text3)}
+.inp{
+  width:100%;
+  background:var(--bg-surface);
+  border:1px solid var(--border-medium);
+  border-radius:8px;
+  padding:10px 14px;
+  color:var(--text-primary);
+  font-family:'Noto Sans TC',sans-serif;
+  font-size:14px;font-weight:300;outline:none;
+  transition:border-color .2s,box-shadow .2s;
+}
+.inp:focus{
+  border-color:var(--color-accent-gold);
+  box-shadow:0 0 0 3px rgba(200,164,93,0.15);
+}
+.inp::placeholder{color:var(--text-muted)}
 .inp-row{display:grid;grid-template-columns:1fr auto;gap:10px}
 .inp-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
 @media(max-width:600px){.inp-grid{grid-template-columns:1fr 1fr}}
-.inp-label{font-size:11px;color:var(--text3);margin-bottom:6px}
+.inp-label{font-size:13px;font-weight:400;color:var(--text-secondary);margin-bottom:6px;letter-spacing:0.2px}
 
 /* Buttons */
-.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;border:none;transition:all .18s;font-family:'Noto Sans TC',sans-serif}
-.btn-primary{background:linear-gradient(135deg,#2F3A4C,#3d4f66);color:#fff;border:1px solid rgba(200,164,93,0.3)}
-.btn-primary:hover:not(:disabled){opacity:.88;transform:translateY(-1px)}
-.btn-primary:disabled{opacity:.35;cursor:not-allowed;transform:none}
-.btn-ghost{background:var(--bg3);border:1px solid var(--border);color:var(--text2)}
-.btn-ghost:hover{border-color:var(--border2);color:var(--text)}
-.btn-success{background:rgba(52,211,153,.15);border:1px solid rgba(52,211,153,.3);color:var(--green)}
-.btn-danger{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:var(--red)}
-.btn-full{width:100%;justify-content:center;padding:15px;font-size:15px;border-radius:12px;position:relative;overflow:hidden;background:linear-gradient(135deg,#2F3A4C,#3d4f66);color:#fff;border:1px solid rgba(200,164,93,0.4)}
-.btn-full.loading::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent);animation:shimmer 1.1s infinite}
+.btn{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:10px 18px;border-radius:8px;
+  font-size:14px;font-weight:400;cursor:pointer;border:none;
+  transition:all .18s;font-family:'Noto Sans TC',sans-serif;
+}
+/* Primary = Gold CTA */
+.btn-primary{
+  background:var(--gradient-gold);
+  color:#fff;
+  box-shadow:0 2px 8px rgba(184,146,79,0.35);
+}
+.btn-primary:hover:not(:disabled){
+  filter:brightness(1.06);
+  transform:translateY(-1px);
+  box-shadow:0 4px 14px rgba(184,146,79,0.45);
+}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+/* Secondary = Dark */
+.btn-secondary{
+  background:var(--color-primary);color:#fff;
+  box-shadow:0 2px 6px rgba(47,58,76,0.25);
+}
+.btn-secondary:hover{filter:brightness(1.12);transform:translateY(-1px)}
+/* Ghost */
+.btn-ghost{
+  background:transparent;
+  border:1px solid var(--border-medium);
+  color:var(--color-primary);
+}
+.btn-ghost:hover{background:var(--bg-section);border-color:var(--border-medium)}
+.btn-success{background:rgba(63,167,111,.1);border:1px solid rgba(63,167,111,.3);color:var(--success)}
+.btn-danger{background:rgba(229,72,77,.08);border:1px solid rgba(229,72,77,.2);color:var(--danger)}
+/* Full width CTA */
+.btn-full{
+  width:100%;justify-content:center;
+  padding:14px;font-size:15px;border-radius:10px;
+  position:relative;overflow:hidden;
+  background:var(--gradient-gold);
+  color:#fff;
+  box-shadow:0 4px 16px rgba(184,146,79,0.4);
+}
+.btn-full:hover:not(:disabled){filter:brightness(1.06);transform:translateY(-1px)}
+.btn-full.loading::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);
+  animation:shimmer 1.1s infinite;
+}
 @keyframes shimmer{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
 
 /* Upload zones */
 .upload-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
 @media(max-width:600px){.upload-grid{grid-template-columns:1fr}}
-.upload-zone{border:1.5px dashed var(--border);border-radius:12px;padding:20px 14px;text-align:center;cursor:pointer;transition:all .2s;position:relative;min-height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.upload-zone:hover,.upload-zone.drag{border-color:var(--accent);background:rgba(79,142,247,.04)}
-.upload-zone.has-file{border-color:rgba(52,211,153,.4);background:rgba(52,211,153,.04)}
+.upload-zone{
+  border:1.5px dashed var(--border-medium);
+  border-radius:10px;padding:20px 14px;
+  text-align:center;cursor:pointer;
+  transition:all .2s;position:relative;
+  min-height:130px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:var(--bg-section);
+}
+.upload-zone:hover,.upload-zone.drag{
+  border-color:var(--color-accent-gold);
+  background:rgba(200,164,93,.05);
+}
+.upload-zone.has-file{
+  border-color:var(--success);
+  background:rgba(63,167,111,.05);
+}
 .upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer}
-.uz-icon{font-size:24px;margin-bottom:7px}
-.uz-title{font-size:12px;font-weight:500;color:var(--text);margin-bottom:3px}
-.uz-sub{font-size:11px;color:var(--text3);line-height:1.5}
+.uz-icon{font-size:24px;margin-bottom:10px;display:flex;align-items:center;justify-content:center}
+.uz-title{font-size:12px;font-weight:600;color:var(--text-primary);margin-bottom:3px}
+.uz-sub{font-size:11px;color:var(--text-muted);line-height:1.5}
 .uz-preview{width:100%;border-radius:8px;max-height:110px;object-fit:cover;display:none;margin-bottom:6px}
-.uz-filename{font-size:10px;color:var(--green);margin-top:4px;word-break:break-all;display:none}
+.uz-filename{font-size:10px;color:var(--success);margin-top:4px;word-break:break-all;display:none}
 
-/* Watermark settings */
-.wm-section{background:var(--bg3);border-radius:10px;padding:16px;margin-top:12px}
-.wm-drag-item{position:absolute;padding:4px 10px;font-size:15px;font-weight:bold;white-space:nowrap;cursor:grab;border:1px dashed rgba(200,164,93,0.5);border-radius:6px;display:none;transition:box-shadow .15s}
-.wm-drag-item:hover{box-shadow:0 2px 8px rgba(200,164,93,0.3)}
-.wm-drag-item.dragging{cursor:grabbing;box-shadow:0 4px 16px rgba(200,164,93,0.4);z-index:10}
+/* Watermark */
+.wm-section{background:var(--bg-section);border-radius:10px;padding:16px;margin-top:12px}
+.wm-drag-item{
+  position:absolute;padding:4px 10px;
+  font-size:15px;font-weight:bold;white-space:nowrap;
+  cursor:grab;
+  border:1px dashed rgba(200,164,93,0.6);
+  border-radius:6px;display:none;
+  transition:box-shadow .15s;
+  background:rgba(255,255,255,0.08);
+}
+.wm-drag-item:hover{box-shadow:0 2px 8px rgba(200,164,93,0.35)}
+.wm-drag-item.dragging{cursor:grabbing;box-shadow:0 4px 16px rgba(200,164,93,0.5);z-index:10}
 .wm-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
 .wm-ctrl-item{display:flex;flex-direction:column;gap:5px}
-.wm-ctrl-label{font-size:11px;color:var(--text3)}
-input[type=range]{width:100%;accent-color:var(--accent)}
+.wm-ctrl-label{font-size:11px;color:var(--text-muted)}
+input[type=range]{width:100%;accent-color:var(--color-accent-gold)}
 
-/* Analysis button */
+/* Analyze button area */
 .analyze-btn-wrap{margin:8px 0 24px}
 
 /* Error / Loading */
-.error-box{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;padding:13px 16px;color:var(--red);font-size:13px;display:none;margin-top:12px}
+.error-box{
+  background:rgba(229,72,77,.06);
+  border:1px solid rgba(229,72,77,.2);
+  border-radius:10px;padding:13px 16px;
+  color:var(--danger);font-size:13px;display:none;margin-top:12px;
+}
 .error-box.show{display:block}
-.loading-box{display:none;text-align:center;padding:36px;color:var(--text2);font-size:13px}
+.loading-box{display:none;text-align:center;padding:36px;color:var(--text-secondary);font-size:13px}
 .loading-box.show{display:block}
-.spinner{width:34px;height:34px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .75s linear infinite;margin:0 auto 12px}
+.spinner{
+  width:34px;height:34px;
+  border:2px solid var(--border-light);
+  border-top-color:var(--color-accent-gold);
+  border-radius:50%;
+  animation:spin .75s linear infinite;
+  margin:0 auto 12px;
+}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* Results */
@@ -118,89 +310,203 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 
 /* Info grid */
 .info-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:20px}
-.info-item{background:var(--bg3);border-radius:10px;padding:13px 14px}
-.info-k{font-size:10px;color:var(--text3);margin-bottom:4px;letter-spacing:.5px}
-.info-v{font-size:15px;font-weight:500}
+.info-item{
+  background:var(--bg-section);
+  border:1px solid var(--border-light);
+  border-radius:10px;padding:13px 14px;
+}
+.info-k{font-size:10px;color:var(--text-muted);margin-bottom:4px;letter-spacing:.5px;font-weight:500}
+.info-v{font-size:15px;font-weight:600;color:var(--text-primary)}
 
 /* Score bar */
 .score-section{margin-bottom:20px}
 .score-row{display:flex;align-items:center;gap:12px;margin-bottom:9px}
-.score-lbl{font-size:12px;color:var(--text2);min-width:72px}
-.score-bar{flex:1;height:7px;background:var(--bg4);border-radius:4px;overflow:hidden}
+.score-lbl{font-size:12px;color:var(--text-secondary);min-width:72px;font-weight:500}
+.score-bar{flex:1;height:6px;background:var(--bg-section);border-radius:4px;overflow:hidden;border:1px solid var(--border-light)}
 .score-fill{height:100%;border-radius:4px;transition:width .8s ease}
-.score-val{font-size:12px;font-weight:600;min-width:30px;text-align:right}
+.fill-green{background:linear-gradient(90deg,#2F3A4C,#4a6080)}
+.fill-blue{background:linear-gradient(90deg,#C8A45D,#E0C48A)}
+.fill-amber{background:linear-gradient(90deg,#8b6914,#C8A45D)}
+.fill-red{background:linear-gradient(90deg,#3FA76F,#6bc99a)}
+.score-val{font-size:12px;font-weight:600;min-width:30px;text-align:right;color:var(--color-accent-gold)}
 
 /* Feature badges */
 .feat-wrap{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:20px}
-.feat-badge{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);display:flex;align-items:center;gap:5px}
-.feat-dot{width:5px;height:5px;border-radius:50%;background:var(--green);flex-shrink:0}
+.feat-badge{
+  background:var(--bg-section);
+  border:1px solid var(--border-light);
+  border-radius:20px;padding:5px 12px;
+  font-size:12px;color:var(--text-secondary);
+  display:flex;align-items:center;gap:5px;
+  font-weight:500;
+}
+.feat-dot{width:5px;height:5px;border-radius:50%;background:var(--success);flex-shrink:0}
 
 /* Price estimate */
-.price-estimate{background:linear-gradient(135deg,rgba(240,180,41,.08),rgba(240,180,41,.04));border:1px solid rgba(240,180,41,.2);border-radius:12px;padding:18px 20px;margin-bottom:20px}
-.pe-title{font-size:12px;color:var(--gold);font-weight:500;margin-bottom:10px}
+.price-estimate{
+  background:linear-gradient(135deg,rgba(200,164,93,.08),rgba(200,164,93,.03));
+  border:1px solid rgba(200,164,93,.25);
+  border-radius:12px;padding:18px 20px;margin-bottom:20px;
+}
+.pe-title{font-size:12px;color:var(--color-accent-gold);font-weight:600;margin-bottom:10px;letter-spacing:.5px}
 .pe-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.pe-label{font-size:12px;color:var(--text2)}
-.pe-val{font-size:13px;font-weight:600;color:var(--text)}
+.pe-label{font-size:12px;color:var(--text-secondary)}
+.pe-val{font-size:13px;font-weight:600;color:var(--text-primary)}
 
 /* Copy tabs */
 .copy-tabs{display:flex;gap:7px;margin-bottom:12px;flex-wrap:wrap}
-.copy-tab{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;font-family:'Noto Sans TC',sans-serif}
-.copy-tab:hover{border-color:var(--border2);color:var(--text)}
-.copy-tab.active{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
-.copy-content{background:var(--bg3);border-radius:12px;padding:18px 16px;font-size:13px;line-height:1.9;color:var(--text);white-space:pre-wrap;display:none;position:relative;min-height:80px}
+.copy-tab{
+  padding:6px 16px;border-radius:20px;font-size:12px;font-weight:500;
+  border:1px solid var(--border-light);
+  background:var(--bg-section);
+  color:var(--text-secondary);cursor:pointer;
+  transition:all .15s;font-family:'Noto Sans TC',sans-serif;
+}
+.copy-tab:hover{border-color:var(--color-accent-gold);color:var(--color-primary)}
+.copy-tab.active{
+  background:var(--gradient-gold);
+  border-color:transparent;color:#fff;font-weight:600;
+  box-shadow:0 2px 8px rgba(184,146,79,0.3);
+}
+.copy-content{
+  background:var(--bg-section);
+  border:1px solid var(--border-light);
+  border-radius:12px;padding:18px 16px;
+  font-size:13px;line-height:1.9;
+  color:var(--text-primary);white-space:pre-wrap;
+  display:none;position:relative;min-height:80px;
+}
 .copy-content.show{display:block;animation:fadeUp .25s ease}
-.btn-copy{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.07);border:1px solid var(--border);color:var(--text2);border-radius:7px;padding:5px 11px;font-size:11px;cursor:pointer;transition:all .15s}
-.btn-copy:hover{background:rgba(255,255,255,.12);color:var(--text)}
-.btn-copy.copied{background:rgba(52,211,153,.12);border-color:rgba(52,211,153,.3);color:var(--green)}
+.btn-copy{
+  position:absolute;top:10px;right:10px;
+  background:var(--bg-surface);
+  border:1px solid var(--border-light);
+  color:var(--text-secondary);
+  border-radius:7px;padding:5px 11px;font-size:11px;cursor:pointer;
+  transition:all .15s;font-weight:500;
+}
+.btn-copy:hover{border-color:var(--color-accent-gold);color:var(--color-primary)}
+.btn-copy.copied{
+  background:rgba(63,167,111,.08);
+  border-color:rgba(63,167,111,.3);color:var(--success);
+}
 
 /* Processed photos */
 .photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:12px}
-.photo-item{position:relative;border-radius:10px;overflow:hidden;aspect-ratio:4/3;background:var(--bg3)}
+.photo-item{
+  position:relative;border-radius:10px;overflow:hidden;
+  aspect-ratio:4/3;background:var(--bg-section);
+  border:1px solid var(--border-light);
+  transition:transform .2s,box-shadow .2s;
+}
+.photo-item:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(47,58,76,0.12)}
 .photo-item img{width:100%;height:100%;object-fit:cover}
-.photo-item .photo-label{position:absolute;bottom:0;left:0;right:0;padding:6px 8px;background:linear-gradient(transparent,rgba(0,0,0,.7));font-size:10px;color:#fff}
-.photo-dl{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.5);border:none;border-radius:6px;padding:4px 7px;color:#fff;font-size:10px;cursor:pointer;transition:background .15s}
-.photo-dl:hover{background:rgba(0,0,0,.75)}
+.photo-item .photo-label{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:6px 8px;
+  background:linear-gradient(transparent,rgba(36,49,66,.8));
+  font-size:10px;color:#fff;font-weight:500;
+}
+.photo-dl{
+  position:absolute;top:6px;right:6px;
+  background:rgba(255,255,255,.9);
+  border:none;border-radius:6px;
+  padding:4px 8px;color:var(--color-primary);
+  font-size:10px;cursor:pointer;font-weight:600;
+  transition:all .15s;
+}
+.photo-dl:hover{background:#fff;box-shadow:0 2px 6px rgba(47,58,76,0.15)}
 
 /* Inventory */
 .inv-table{width:100%;border-collapse:collapse}
-.inv-table th{font-size:11px;color:var(--text3);font-weight:500;letter-spacing:.8px;text-align:left;padding:8px 12px;border-bottom:1px solid var(--border)}
-.inv-table td{font-size:13px;color:var(--text2);padding:12px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+.inv-table th{
+  font-size:11px;color:var(--text-muted);
+  font-weight:600;letter-spacing:.8px;
+  text-align:left;padding:10px 14px;
+  border-bottom:2px solid var(--border-medium);
+  background:var(--bg-section);
+}
+.inv-table td{
+  font-size:13px;color:var(--text-secondary);
+  padding:13px 14px;
+  border-bottom:1px solid var(--border-light);
+  vertical-align:middle;
+}
 .inv-table tr:last-child td{border-bottom:none}
-.inv-table tr:hover td{background:rgba(255,255,255,.02)}
-.status-badge{display:inline-block;padding:3px 9px;border-radius:10px;font-size:11px;font-weight:500}
-.status-in{background:rgba(52,211,153,.12);color:var(--green)}
-.status-sold{background:rgba(248,113,113,.1);color:var(--red)}
-.inv-empty{text-align:center;padding:48px;color:var(--text3);font-size:13px}
+.inv-table tr:hover td{background:var(--bg-section)}
+.status-badge{display:inline-block;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:600}
+.status-in{background:rgba(63,167,111,.1);color:var(--success)}
+.status-sold{background:rgba(229,72,77,.08);color:var(--danger)}
+.inv-empty{text-align:center;padding:48px;color:var(--text-muted);font-size:13px}
 
-/* Settings tab */
+/* Settings */
 .settings-section{margin-bottom:24px}
-.settings-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.plan-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.settings-title{font-size:15px;font-weight:600;color:var(--text-primary);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.plan-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
 @media(max-width:600px){.plan-cards{grid-template-columns:1fr}}
-.plan-card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:18px;text-align:center;cursor:pointer;transition:all .2s}
-.plan-card:hover{border-color:var(--border2)}
-.plan-card.selected{border-color:var(--gold);background:rgba(200,164,93,.06)}
-.plan-name{font-size:12px;color:var(--text2);margin-bottom:4px}
-.plan-price{font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px}
-.plan-limit{font-size:11px;color:var(--text3);line-height:1.7}
+.plan-card{
+  background:var(--bg-section);
+  border:1.5px solid var(--border-light);
+  border-radius:12px;padding:20px;
+  text-align:center;cursor:pointer;
+  transition:all .2s;
+}
+.plan-card:hover{border-color:var(--color-accent-gold);transform:translateY(-2px);box-shadow:0 4px 12px rgba(200,164,93,0.15)}
+.plan-card.selected{
+  border-color:var(--color-accent-gold);
+  background:linear-gradient(135deg,rgba(200,164,93,.08),rgba(200,164,93,.03));
+  box-shadow:0 4px 16px rgba(200,164,93,0.2);
+}
+.plan-name{font-size:12px;color:var(--text-muted);margin-bottom:6px;font-weight:500;letter-spacing:.5px;text-transform:uppercase}
+.plan-price{font-size:22px;font-weight:700;color:var(--text-primary);margin-bottom:10px}
+.plan-limit{font-size:11px;color:var(--text-secondary);line-height:1.8}
 
 /* Highlight box */
-.hl-box{background:linear-gradient(135deg,rgba(79,142,247,.08),rgba(124,92,252,.06));border:1px solid rgba(79,142,247,.18);border-radius:12px;padding:16px 18px;margin-bottom:16px;font-size:13px;color:var(--text2);line-height:1.8}
-.hl-box strong{color:var(--text)}
+.hl-box{
+  background:linear-gradient(135deg,rgba(47,58,76,.04),rgba(200,164,93,.04));
+  border:1px solid var(--border-light);
+  border-radius:12px;padding:16px 18px;margin-bottom:16px;
+  font-size:13px;color:var(--text-secondary);line-height:1.8;
+}
+.hl-box strong{color:var(--color-primary);font-weight:600}
 
 /* Divider */
-.divider{border:none;border-top:1px solid var(--border);margin:20px 0}
+.divider{border:none;border-top:1px solid var(--border-light);margin:20px 0}
 
 /* Section head */
-.sec-head{font-size:12px;font-weight:500;color:var(--text3);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:14px}
+.sec-head{
+  font-size:11px;font-weight:600;
+  color:var(--text-muted);letter-spacing:1.2px;
+  text-transform:uppercase;margin-bottom:14px;
+}
 
 /* Toast */
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:12px 22px;font-size:13px;color:var(--text);opacity:0;transition:all .3s;z-index:999;pointer-events:none;white-space:nowrap}
+.toast{
+  position:fixed;bottom:28px;left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:var(--color-primary);
+  border-radius:10px;padding:12px 24px;
+  font-size:13px;color:#fff;font-weight:500;
+  opacity:0;transition:all .3s;z-index:999;
+  pointer-events:none;white-space:nowrap;
+  box-shadow:0 4px 16px rgba(47,58,76,0.3);
+}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* Page sections */
 .page{display:none}
 .page.active{display:block}
+
+/* Color input circle */
+input[type="color"]{-webkit-appearance:none;appearance:none;border:none;padding:0;cursor:pointer}
+input[type="color"]::-webkit-color-swatch-wrapper{padding:0;border-radius:50%;overflow:hidden}
+input[type="color"]::-webkit-color-swatch{border:none;border-radius:50%}
+input[type="color"]::-moz-color-swatch{border:none;border-radius:50%}
+
+/* Orbs — subtle brand atmosphere */
+.orb{position:fixed;border-radius:50%;filter:blur(140px);pointer-events:none;z-index:0}
+.o1{width:600px;height:600px;background:rgba(200,164,93,0.07);top:-200px;right:-100px}
+.o2{width:500px;height:500px;background:rgba(47,58,76,0.05);bottom:0;left:-150px}
 </style>
 </head>
 <body>
@@ -218,9 +524,15 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 </header>
 
 <nav class="nav-tabs">
-  <div class="nav-tab active" onclick="switchPage('upload')">⚡ AI 上架</div>
-  <div class="nav-tab" onclick="switchPage('inventory')">📦 庫存管理</div>
-  <div class="nav-tab" onclick="switchPage('settings')">⚙️ 設定</div>
+  <div class="nav-tab active" onclick="switchPage('upload')" style="display:flex;align-items:center;gap:6px">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    AI 上架</div>
+  <div class="nav-tab" onclick="switchPage('inventory')" style="display:flex;align-items:center;gap:6px">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+    庫存管理</div>
+  <div class="nav-tab" onclick="switchPage('settings')" style="display:flex;align-items:center;gap:6px">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    設定</div>
 </nav>
 
 <main>
@@ -230,7 +542,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 
   <!-- API Key -->
   <div class="card" id="apiCard" style="display:none">
-    <div class="card-title"><span class="card-title-icon">🔑</span> API 金鑰</div>
+    <div class="card-title"><span class="card-title-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="5.5"/><path d="M21 2l-9.6 9.6"/><path d="M15.5 7.5l3 3L22 7l-3-3"/></svg></span> API 金鑰</div>
     <div class="inp-row">
       <input class="inp" type="password" id="apiKey" placeholder="sk-ant-api03-xxxxxxxxxx...">
       <button class="btn btn-primary" onclick="saveKey()">儲存</button>
@@ -240,7 +552,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 
   <!-- Upload photos -->
   <div class="card">
-    <div class="card-title"><span class="card-title-icon">📸</span> 上傳照片</div>
+    <div class="card-title"><span class="card-title-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span> 上傳照片</div>
     <div class="upload-grid">
       <!-- 行照 -->
       <div>
@@ -248,7 +560,28 @@ input[type=range]{width:100%;accent-color:var(--accent)}
         <label class="upload-zone" id="z0" for="f0" ondragover="doDrag(event,'z0')" ondragleave="undrag('z0')" ondrop="doDrop(event,'f0','z0',0)">
           <input type="file" id="f0" accept="image/*" onchange="onFile(0)" style="display:none">
           <img class="uz-preview" id="p0">
-          <div class="uz-icon">📋</div>
+          <div class="uz-icon"><svg width="44" height="44" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="color:var(--color-accent-gold)">
+  <!-- 文件主體 -->
+  <rect x="8" y="4" width="26" height="34" rx="3" stroke="currentColor" stroke-width="1.4" fill="none"/>
+  <!-- 折角 -->
+  <path d="M26 4 L34 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+  <path d="M26 4 L26 12 L34 12" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round" opacity="0.5"/>
+  <!-- 車牌矩形 -->
+  <rect x="12" y="20" width="18" height="10" rx="2" stroke="currentColor" stroke-width="1.3" fill="currentColor" fill-opacity="0.08"/>
+  <!-- 車牌螺絲 -->
+  <circle cx="14.5" cy="25" r="1.2" fill="currentColor" opacity="0.6"/>
+  <circle cx="27.5" cy="25" r="1.2" fill="currentColor" opacity="0.6"/>
+  <!-- 車牌文字線條 -->
+  <line x1="17" y1="22.5" x2="25" y2="22.5" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+  <line x1="17" y1="25" x2="25" y2="25" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+  <line x1="17" y1="27.5" x2="22" y2="27.5" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+  <!-- 頂部文字線條 -->
+  <line x1="12" y1="14" x2="28" y2="14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
+  <line x1="12" y1="17" x2="22" y2="17" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
+  <!-- 認證章 -->
+  <circle cx="36" cy="36" r="7" fill="white" stroke="currentColor" stroke-width="1.3"/>
+  <path d="M33 36 L35.2 38.2 L39 34" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg></div>
           <div class="uz-title">行照</div>
           <div class="uz-sub">提取基本資料</div>
           <div class="uz-filename" id="fn0"></div>
@@ -260,7 +593,30 @@ input[type=range]{width:100%;accent-color:var(--accent)}
         <label class="upload-zone" id="z1" for="f1" ondragover="doDrag(event,'z1')" ondragleave="undrag('z1')" ondrop="doDrop(event,'f1','z1',1)">
           <input type="file" id="f1" accept="image/*" multiple onchange="onFile(1)" style="display:none">
           <img class="uz-preview" id="p1">
-          <div class="uz-icon">🚗</div>
+          <div class="uz-icon"><svg width="44" height="44" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="color:var(--color-accent-gold)">
+  <!-- 車身主體（填色） -->
+  <path d="M10 55 C10 55 8 45 12 38 C16 31 22 28 28 26 L32 18 C34 14 38 12 50 12 C62 12 66 14 68 18 L72 26 C78 28 84 31 88 38 C92 45 90 55 90 55 Z" fill="currentColor"/>
+  <!-- 擋風玻璃（挖空白色） -->
+  <path d="M34 26 L36 18 C37.5 14.5 41 13 50 13 C59 13 62.5 14.5 64 18 L66 26 Z" fill="white"/>
+  <!-- 引擎蓋分割線 -->
+  <line x1="50" y1="13" x2="50" y2="26" stroke="white" stroke-width="1.5"/>
+  <!-- 車頭中央進氣格柵 -->
+  <rect x="38" y="45" width="24" height="10" rx="3" fill="white" opacity="0.9"/>
+  <!-- 左大燈（白色挖空） -->
+  <ellipse cx="22" cy="42" rx="8" ry="5" fill="white" opacity="0.85"/>
+  <!-- 右大燈 -->
+  <ellipse cx="78" cy="42" rx="8" ry="5" fill="white" opacity="0.85"/>
+  <!-- 左霧燈 -->
+  <ellipse cx="18" cy="52" rx="4" ry="2.5" fill="white" opacity="0.6"/>
+  <!-- 右霧燈 -->
+  <ellipse cx="82" cy="52" rx="4" ry="2.5" fill="white" opacity="0.6"/>
+  <!-- 左輪拱 -->
+  <path d="M8 62 C8 58 12 55 18 55 C24 55 28 58 28 62" fill="white" opacity="0.3"/>
+  <!-- 右輪拱 -->
+  <path d="M92 62 C92 58 88 55 82 55 C76 55 72 58 72 62" fill="white" opacity="0.3"/>
+  <!-- 底部收尾 -->
+  <rect x="10" y="58" width="80" height="5" rx="2" fill="currentColor" opacity="0.4"/>
+</svg></div>
           <div class="uz-title">外觀 / 內裝</div>
           <div class="uz-sub">辨識配備 · 支援多張</div>
           <div class="uz-filename" id="fn1"></div>
@@ -272,7 +628,16 @@ input[type=range]{width:100%;accent-color:var(--accent)}
         <label class="upload-zone" id="z2" for="f2" ondragover="doDrag(event,'z2')" ondragleave="undrag('z2')" ondrop="doDrop(event,'f2','z2',2)">
           <input type="file" id="f2" accept="image/*" onchange="onFile(2)" style="display:none">
           <img class="uz-preview" id="p2">
-          <div class="uz-icon">🎛️</div>
+          <div class="uz-icon"><svg width="44" height="44" viewBox="0 0 100 75" fill="none" xmlns="http://www.w3.org/2000/svg" style="color:var(--color-accent-gold)">
+  <!-- 粗外弧（主體） -->
+  <path d="M8 68 A46 46 0 0 1 92 68" stroke="currentColor" stroke-width="14" stroke-linecap="round" fill="none"/>
+  <!-- 內挖空白弧（形成圓環感） -->
+  <path d="M16 68 A38 38 0 0 1 84 68" stroke="white" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <!-- 指針細長尾巴 -->
+  <path d="M50 62 Q38 45 18 28" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <!-- 指針圓心 -->
+  <circle cx="50" cy="62" r="7" fill="currentColor"/>
+</svg></div>
           <div class="uz-title">儀表板</div>
           <div class="uz-sub">自動辨識里程數</div>
           <div class="uz-filename" id="fn2"></div>
@@ -300,7 +665,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
   <!-- Analyze -->
   <div class="analyze-btn-wrap">
     <button class="btn btn-primary btn-full" id="btnAnalyze" onclick="analyze()">
-      ⚡ AI 一鍵辨識 × 生成文案
+      AI 一鍵辨識 × 生成文案
     </button>
   </div>
   <div class="error-box" id="errBox"></div>
@@ -314,7 +679,12 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 
     <!-- Vehicle info -->
     <div class="card">
-      <div class="card-title"><span class="card-title-icon">🚘</span> 辨識結果</div>
+      <div class="card-title"><span class="card-title-icon"><svg width="17" height="14" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M15 45 C15 35 20 28 30 25 L35 15 C37 10 42 8 50 8 C58 8 63 10 65 15 L70 25 C80 28 85 35 85 45 L85 58 C85 62 82 65 78 65 L22 65 C18 65 15 62 15 58 Z" fill="currentColor" opacity="0.15"/>
+  <path d="M15 45 C15 35 20 28 30 25 L35 15 C37 10 42 8 50 8 C58 8 63 10 65 15 L70 25 C80 28 85 35 85 45 L85 58 C85 62 82 65 78 65 L22 65 C18 65 15 62 15 58 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+  <circle cx="28" cy="65" r="11" fill="none" stroke="currentColor" stroke-width="4"/>
+  <circle cx="72" cy="65" r="11" fill="none" stroke="currentColor" stroke-width="4"/>
+</svg></span> 辨識結果</div>
       <div class="info-grid" id="infoGrid"></div>
 
       <!-- Condition score -->
@@ -327,33 +697,47 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 
       <!-- Price estimate -->
       <div class="price-estimate" id="priceEst" style="display:none">
-        <div class="pe-title">💰 AI 市場估價參考</div>
+        <div class="pe-title">AI 市場估價參考</div>
         <div id="priceEstContent"></div>
         <div style="font-size:11px;color:var(--text3);margin-top:8px">* 僅供參考，實際成交價依車況與市場供需而定</div>
       </div>
 
       <!-- Save button -->
       <button class="btn btn-success" onclick="saveToInventory()" style="width:100%;justify-content:center;padding:12px">
-        💾 儲存至庫存
+        儲存至庫存
       </button>
     </div>
 
     <!-- Processed photos -->
     <div class="card" id="photoCard" style="display:none">
-      <div class="card-title"><span class="card-title-icon">🖼️</span> 照片處理結果</div>
+      <div class="card-title"><span class="card-title-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span> 照片處理結果</div>
       <div style="font-size:12px;color:var(--text3);margin-bottom:10px">已自動美化 · 套用浮水印</div>
       <div class="photo-grid" id="photoGrid"></div>
     </div>
 
     <!-- Copy section -->
     <div class="card">
-      <div class="card-title"><span class="card-title-icon">✍️</span> 自動生成文案</div>
+      <div class="card-title"><span class="card-title-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span> 自動生成文案</div>
       <div class="copy-tabs">
-        <button class="copy-tab active" onclick="switchTab(0)">🏆 專業規格版</button>
-        <button class="copy-tab" onclick="switchTab(1)">🔥 FB 爆款版</button>
-        <button class="copy-tab" onclick="switchTab(2)">🤝 誠信老實版</button>
+        <button class="copy-tab active" onclick="switchTab(0)">專業規格版</button>
+        <button class="copy-tab" onclick="switchTab(1)">FB 爆款版</button>
+        <button class="copy-tab" onclick="switchTab(2)">誠信老實版</button>
       </div>
       <div id="copyContents"></div>
+
+      <!-- Hashtag section -->
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border-light)">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div style="font-size:12px;font-weight:600;color:var(--color-primary);letter-spacing:.5px">AI 生成 Hashtag</div>
+          <button onclick="copyAllHashtags()" style="font-size:11px;padding:4px 10px;background:var(--bg-section);border:1px solid var(--border-medium);border-radius:6px;color:var(--text-secondary);cursor:pointer;font-weight:500">全部複製</button>
+        </div>
+        <div id="hashtagWrap" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px"></div>
+        <div style="display:flex;gap:8px">
+          <input class="inp" type="text" id="newHashtagInput" placeholder="輸入自訂 # 標籤" style="flex:1;padding:8px 12px"
+            onkeydown="if(event.key==='Enter')addCustomHashtag()">
+          <button onclick="addCustomHashtag()" style="padding:8px 16px;background:var(--gradient-gold);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap">+ 新增</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -361,7 +745,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 <!-- ===== PAGE: INVENTORY ===== -->
 <div class="page" id="page-inventory">
   <div class="card">
-    <div class="card-title"><span class="card-title-icon">📦</span> 在庫車輛</div>
+    <div class="card-title"><span class="card-title-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span> 在庫車輛</div>
     <div id="invContent">
       <div class="inv-empty">目前沒有庫存<br><span style="font-size:12px;color:var(--text3)">上架並儲存車輛後會顯示在這裡</span></div>
     </div>
@@ -372,7 +756,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 <div class="page" id="page-settings">
 
   <div class="card">
-    <div class="card-title"><span class="card-title-icon">📊</span> 方案與使用量</div>
+    <div class="card-title"><span class="card-title-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> 方案與使用量</div>
     <div class="hl-box">
       本月已使用 <strong id="usedCount">0</strong> 台 / 上限 <strong id="limitCount">30</strong> 台｜
       重置日：每月 1 日
@@ -397,7 +781,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
   </div>
 
   <div class="card">
-    <div class="card-title"><span class="card-title-icon">🔐</span> 帳號安全設定</div>
+    <div class="card-title"><span class="card-title-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span> 帳號安全設定</div>
     <div style="display:flex;flex-direction:column;gap:12px">
       <label style="display:flex;align-items:center;justify-content:space-between;cursor:pointer">
         <div>
@@ -426,7 +810,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
   </div>
 
   <div class="card">
-    <div class="card-title"><span class="card-title-icon">🏪</span> 店家資訊</div>
+    <div class="card-title"><span class="card-title-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span> 店家資訊</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
       <div>
         <div class="inp-label">店家名稱</div>
@@ -469,7 +853,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
   </div>
 
   <div class="card">
-    <div class="card-title"><span class="card-title-icon">🔏</span> 浮水印設定</div>
+    <div class="card-title"><span class="card-title-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span> 浮水印設定</div>
 
     <!-- Enable toggle -->
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding:12px 16px;background:var(--bg3);border-radius:10px">
@@ -495,76 +879,120 @@ input[type=range]{width:100%;accent-color:var(--accent)}
         </label>
       </div>
 
+      <!-- Logo opacity - right after logo -->
+      <div style="margin-bottom:16px;padding:12px 14px;background:var(--bg-section);border-radius:10px;border:1px solid var(--border-light)">
+        <div class="inp-label" style="margin-bottom:8px">Logo 透明度 <span id="wmOpacityVal">60</span>%</div>
+        <input type="range" id="wmOpacity" min="10" max="100" value="60"
+          oninput="document.getElementById('wmOpacityVal').textContent=this.value;updateWmPreview()"
+          style="width:100%;accent-color:var(--color-accent-gold)">
+      </div>
+
       <!-- Font settings -->
       <div style="margin-bottom:16px">
         <div class="inp-label" style="margin-bottom:8px">字型選擇</div>
-        <select class="inp" id="wmFontStyle" style="padding:8px 12px;margin-bottom:8px" onchange="updateWmPreview()">
+        <select class="inp" id="wmFontStyle" style="padding:8px 12px;margin-bottom:8px;font-size:14px" onchange="updateWmPreview();previewFontSelect(this)">
           <optgroup label="── 中文 黑體 ──">
             <option value="'Noto Sans TC',sans-serif">Noto Sans TC｜現代黑體</option>
             <option value="'Microsoft JhengHei','PingFang TC',sans-serif" selected>微軟正黑體 ★</option>
-            <option value="'PingFang TC',sans-serif">蘋方（Apple 系統）</option>
+            <option value="'PingFang TC',sans-serif">蘋方（Apple）</option>
             <option value="'Source Han Sans TC',sans-serif">思源黑體</option>
           </optgroup>
-          <optgroup label="── 中文 手寫 / 特色 ──">
-            <option value="'DFKai-SB',serif">標楷體（手寫感）</option>
-            <option value="'Noto Serif TC',serif">Noto Serif TC｜明體</option>
-            <option value="'Ma Shan Zheng',cursive">馬善政楷書（手寫）</option>
+          <optgroup label="── 中文 手寫 ──">
+            <option value="'DFKai-SB',serif">標楷體</option>
+            <option value="'Noto Serif TC',serif">明體</option>
+            <option value="'Ma Shan Zheng',cursive">馬善政楷書</option>
             <option value="'ZCOOL KuaiLe',cursive">站酷快樂體</option>
-            <option value="'ZCOOL XiaoWei',serif">站酷小薇體</option>
-            <option value="'Liu Jian Mao Cao',cursive">流江毛草（草書）</option>
-            <option value="'Long Cang',cursive">龍藏體（書法）</option>
+            <option value="'ZCOOL XiaoWei',serif">站酷小薇</option>
+            <option value="'Liu Jian Mao Cao',cursive">流江毛草</option>
+            <option value="'Long Cang',cursive">龍藏體</option>
+            <option value="'Zhi Mang Xing',cursive">知芒行書</option>
           </optgroup>
-          <optgroup label="── 英文 Sans-Serif ──">
-            <option value="'Helvetica Neue',Helvetica,sans-serif">Helvetica Neue</option>
-            <option value="'Arial Black',sans-serif">Arial Black（粗）</option>
-            <option value="Impact,sans-serif">Impact（衝擊）</option>
-            <option value="'Oswald',sans-serif">Oswald</option>
-            <option value="'Roboto',sans-serif">Roboto</option>
+          <optgroup label="── 英文 Sans 細體 ──">
+            <option value="'Roboto',sans-serif" style="font-weight:100">Roboto Thin</option>
             <option value="'Montserrat',sans-serif">Montserrat</option>
             <option value="'Raleway',sans-serif">Raleway</option>
+            <option value="'Josefin Sans',sans-serif">Josefin Sans</option>
+            <option value="'Work Sans',sans-serif">Work Sans</option>
+            <option value="'DM Sans',sans-serif">DM Sans</option>
+            <option value="'Inter',sans-serif">Inter</option>
+            <option value="'Plus Jakarta Sans',sans-serif">Plus Jakarta Sans</option>
+            <option value="'Mulish',sans-serif">Mulish</option>
+            <option value="'Karla',sans-serif">Karla</option>
+            <option value="'Quicksand',sans-serif">Quicksand</option>
+            <option value="'Nunito',sans-serif">Nunito</option>
             <option value="'Poppins',sans-serif">Poppins</option>
-            <option value="'Nunito',sans-serif">Nunito（圓潤）</option>
             <option value="'Open Sans',sans-serif">Open Sans</option>
             <option value="'Lato',sans-serif">Lato</option>
             <option value="'Ubuntu',sans-serif">Ubuntu</option>
-            <option value="'Exo 2',sans-serif">Exo 2（科技）</option>
-            <option value="'Quicksand',sans-serif">Quicksand（輕盈）</option>
+            <option value="'Exo 2',sans-serif">Exo 2</option>
+            <option value="'Helvetica Neue',Helvetica,sans-serif">Helvetica Neue</option>
           </optgroup>
           <optgroup label="── 英文 Serif ──">
             <option value="Georgia,serif">Georgia</option>
-            <option value="'Times New Roman',serif">Times New Roman</option>
-            <option value="'Playfair Display',serif">Playfair Display（優雅）</option>
+            <option value="'Playfair Display',serif">Playfair Display</option>
+            <option value="'Cormorant Garamond',serif">Cormorant Garamond</option>
+            <option value="'EB Garamond',serif">EB Garamond</option>
+            <option value="'Crimson Text',serif">Crimson Text</option>
+            <option value="'Spectral',serif">Spectral</option>
             <option value="'Merriweather',serif">Merriweather</option>
             <option value="'Lora',serif">Lora</option>
             <option value="'Libre Baskerville',serif">Libre Baskerville</option>
+            <option value="'Times New Roman',serif">Times New Roman</option>
           </optgroup>
-          <optgroup label="── 英文 手寫 ──">
-            <option value="'Pacifico',cursive">Pacifico（圓潤）</option>
-            <option value="'Dancing Script',cursive">Dancing Script（優雅）</option>
-            <option value="'Permanent Marker',cursive">Permanent Marker（麥克筆）</option>
-            <option value="'Caveat',cursive">Caveat（隨筆）</option>
-            <option value="'Satisfy',cursive">Satisfy（流暢）</option>
-            <option value="'Kaushan Script',cursive">Kaushan Script（俐落）</option>
-            <option value="'Yellowtail',cursive">Yellowtail（復古）</option>
-            <option value="'Sacramento',cursive">Sacramento（細緻）</option>
-            <option value="'Great Vibes',cursive">Great Vibes（婚禮風）</option>
-            <option value="'Alex Brush',cursive">Alex Brush（輕盈）</option>
-            <option value="'Allura',cursive">Allura（華麗）</option>
-            <option value="'Amatic SC',cursive">Amatic SC（手寫塊）</option>
+          <optgroup label="── 英文 手寫 細緻 ──">
+            <option value="'Sacramento',cursive">Sacramento</option>
+            <option value="'Great Vibes',cursive">Great Vibes</option>
+            <option value="'Alex Brush',cursive">Alex Brush</option>
+            <option value="'Allura',cursive">Allura</option>
+            <option value="'Nothing You Could Do',cursive">Nothing You Could Do</option>
+            <option value="'Homemade Apple',cursive">Homemade Apple</option>
+            <option value="'Reenie Beanie',cursive">Reenie Beanie</option>
+            <option value="'Covered By Your Grace',cursive">Covered By Your Grace</option>
           </optgroup>
-          <optgroup label="── 英文 Display / 特色 ──">
-            <option value="'Bebas Neue',sans-serif">Bebas Neue（全大寫）</option>
-            <option value="'Anton',sans-serif">Anton（粗黑）</option>
-            <option value="'Bangers',cursive">Bangers（漫畫）</option>
-            <option value="'Righteous',sans-serif">Righteous（復古）</option>
-            <option value="'Russo One',sans-serif">Russo One（科技）</option>
+          <optgroup label="── 英文 手寫 活潑 ──">
+            <option value="'Pacifico',cursive">Pacifico</option>
+            <option value="'Dancing Script',cursive">Dancing Script</option>
+            <option value="'Caveat',cursive">Caveat</option>
+            <option value="'Satisfy',cursive">Satisfy</option>
+            <option value="'Kaushan Script',cursive">Kaushan Script</option>
+            <option value="'Courgette',cursive">Courgette</option>
+            <option value="'Marck Script',cursive">Marck Script</option>
+            <option value="'Bad Script',cursive">Bad Script</option>
+            <option value="'Neucha',cursive">Neucha</option>
+            <option value="'Patrick Hand',cursive">Patrick Hand</option>
+            <option value="'Indie Flower',cursive">Indie Flower</option>
+            <option value="'Architects Daughter',cursive">Architects Daughter</option>
+            <option value="'Shadows Into Light',cursive">Shadows Into Light</option>
+          </optgroup>
+          <optgroup label="── 英文 手寫 粗獷 ──">
+            <option value="'Permanent Marker',cursive">Permanent Marker</option>
+            <option value="'Rock Salt',cursive">Rock Salt</option>
+            <option value="'Amatic SC',cursive">Amatic SC</option>
+            <option value="'Yellowtail',cursive">Yellowtail</option>
+          </optgroup>
+          <optgroup label="── 英文 Display 強烈 ──">
+            <option value="'Bebas Neue',sans-serif">Bebas Neue</option>
+            <option value="'Anton',sans-serif">Anton</option>
+            <option value="'Black Han Sans',sans-serif">Black Han Sans</option>
+            <option value="'Alfa Slab One',serif">Alfa Slab One</option>
+            <option value="'Titan One',sans-serif">Titan One</option>
+            <option value="'Lilita One',sans-serif">Lilita One</option>
+            <option value="'Oswald',sans-serif">Oswald</option>
+            <option value="'Russo One',sans-serif">Russo One</option>
+            <option value="'Righteous',sans-serif">Righteous</option>
             <option value="'Passion One',sans-serif">Passion One</option>
-            <option value="'Black Han Sans',sans-serif">Black Han Sans（韓風粗）</option>
+          </optgroup>
+          <optgroup label="── 英文 Display 趣味 ──">
+            <option value="'Bangers',cursive">Bangers</option>
+            <option value="'Boogaloo',cursive">Boogaloo</option>
+            <option value="'Fredoka One',cursive">Fredoka One</option>
           </optgroup>
           <optgroup label="── 等寬 Monospace ──">
-            <option value="'Courier New',monospace">Courier New</option>
-            <option value="'Source Code Pro',monospace">Source Code Pro</option>
+            <option value="'JetBrains Mono',monospace">JetBrains Mono</option>
             <option value="'Fira Code',monospace">Fira Code</option>
+            <option value="'Source Code Pro',monospace">Source Code Pro</option>
+            <option value="'Space Mono',monospace">Space Mono</option>
+            <option value="'Courier New',monospace">Courier New</option>
           </optgroup>
         </select>
 
@@ -601,6 +1029,14 @@ input[type=range]{width:100%;accent-color:var(--accent)}
         </div>
       </div>
 
+      <!-- Text opacity -->
+      <div style="margin-bottom:16px">
+        <div class="inp-label" style="margin-bottom:8px">文字透明度 <span id="wmTextOpacityVal">100</span>%</div>
+        <input type="range" id="wmTextOpacity" min="10" max="100" value="100"
+          oninput="document.getElementById('wmTextOpacityVal').textContent=this.value;updateWmPreview()"
+          style="width:100%;accent-color:var(--color-accent-gold)">
+      </div>
+
       <!-- Colors -->
       <div style="margin-bottom:16px">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
@@ -609,13 +1045,13 @@ input[type=range]{width:100%;accent-color:var(--accent)}
             <div class="inp-label" style="margin-bottom:8px">文字顏色</div>
             <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
               <input type="color" id="wmFontColor" value="#ffffff" oninput="updateWmPreview()"
-                style="width:36px;height:36px;border-radius:50%;border:2px solid var(--border);cursor:pointer;padding:2px">
+                style="width:38px;height:38px;border-radius:50%;border:2px solid var(--border-medium);cursor:pointer;padding:3px;-webkit-appearance:none;overflow:hidden">
               <button onclick="togglePalette('paletteFont')" style="font-size:12px;color:var(--accent2);background:none;border:1px solid var(--border);border-radius:8px;padding:4px 10px;cursor:pointer">
                 選色 ▾
               </button>
             </div>
             <div id="paletteFont" style="display:none;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:10px;margin-bottom:8px">
-              <div id="colorPaletteFont" style="display:grid;grid-template-columns:repeat(12,1fr);gap:4px"></div>
+              <div id="colorPaletteFont" style="display:grid;grid-template-columns:repeat(12,1fr);gap:4px;align-items:center"></div>
             </div>
           </div>
           <!-- Shadow color -->
@@ -623,31 +1059,25 @@ input[type=range]{width:100%;accent-color:var(--accent)}
             <div class="inp-label" style="margin-bottom:8px">文字陰影</div>
             <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;color:var(--text2);margin-bottom:8px">
               <input type="checkbox" id="wmHasShadow" onchange="toggleShadowPanel();updateWmPreview()" style="accent-color:var(--gold)">
-              啟用陰影
+              陰影
             </label>
             <div id="shadowPanel" style="display:none">
               <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
                 <input type="color" id="wmShadowColor" value="#000000" oninput="updateWmPreview()"
-                  style="width:36px;height:36px;border-radius:50%;border:2px solid var(--border);cursor:pointer;padding:2px">
+                  style="width:38px;height:38px;border-radius:50%;border:2px solid var(--border-medium);cursor:pointer;padding:3px;-webkit-appearance:none;overflow:hidden">
                 <button onclick="togglePalette('paletteShadow')" style="font-size:12px;color:var(--accent2);background:none;border:1px solid var(--border);border-radius:8px;padding:4px 10px;cursor:pointer">
                   選色 ▾
                 </button>
               </div>
               <div id="paletteShadow" style="display:none;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:10px">
-                <div id="colorPaletteShadow" style="display:grid;grid-template-columns:repeat(12,1fr);gap:4px"></div>
+                <div id="colorPaletteShadow" style="display:grid;grid-template-columns:repeat(12,1fr);gap:4px;align-items:center"></div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Opacity -->
-      <div style="margin-bottom:16px">
-        <div class="inp-label">透明度 <span id="wmOpacityVal">60</span>%</div>
-        <input type="range" id="wmOpacity" min="10" max="100" value="60"
-          oninput="document.getElementById('wmOpacityVal').textContent=this.value;updateWmPreview()"
-          style="width:100%;accent-color:var(--gold);margin-top:8px">
-      </div>
+
 
       <!-- Preview with individual draggable items -->
       <div>
@@ -655,12 +1085,23 @@ input[type=range]{width:100%;accent-color:var(--accent)}
           <div class="inp-label">即時預覽</div>
           <span style="font-size:11px;color:var(--text3)">拖曳各欄位調整位置</span>
         </div>
+        <!-- Preview image upload -->
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+          <label for="previewImgInput" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:var(--bg-section);border:1px solid var(--border-medium);border-radius:8px;font-size:12px;color:var(--color-primary);cursor:pointer;font-weight:500;transition:all .15s" onmouseover="this.style.borderColor='var(--color-accent-gold)'" onmouseout="this.style.borderColor='var(--border-medium)'">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            上傳預覽照片
+          </label>
+          <input type="file" id="previewImgInput" accept="image/*" style="display:none" onchange="loadPreviewImg(this)">
+          <button onclick="clearPreviewImg()" style="padding:6px 12px;background:none;border:1px solid var(--border-light);border-radius:8px;font-size:12px;color:var(--text-muted);cursor:pointer">清除</button>
+        </div>
+
         <div id="wmPreviewBox"
-          style="position:relative;border-radius:12px;overflow:hidden;min-height:240px;border:2px dashed var(--border);background:linear-gradient(135deg,#dce8f5,#c8d8e8);user-select:none">
-          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none">
-            <div style="text-align:center;opacity:0.25">
-              <div style="font-size:40px">🚗</div>
-              <div style="font-size:12px;color:#4a6080;margin-top:4px">車輛照片預覽區</div>
+          style="position:relative;border-radius:12px;overflow:hidden;min-height:240px;border:2px dashed var(--border-medium);background:#FFFFFF;user-select:none;box-shadow:inset 0 0 0 1px var(--border-light)">
+          <img id="wmPreviewBg" src="" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none">
+          <div id="wmPreviewPlaceholder" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none">
+            <div style="text-align:center;opacity:0.3">
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#4a6080" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1l3-3h8l3 3h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="17.5" r="2.5"/><path d="M2 11h20"/></svg>
+              <div style="font-size:12px;color:#4a6080;margin-top:6px">上傳照片預覽浮水印效果</div>
             </div>
           </div>
           <!-- Individual draggable text items -->
@@ -669,13 +1110,13 @@ input[type=range]{width:100%;accent-color:var(--accent)}
           <div id="wm-item-addr"  class="wm-drag-item" style="left:10px;top:78px"  data-key="addr"></div>
           <div id="wm-item-line"  class="wm-drag-item" style="left:10px;top:112px" data-key="line"></div>
         </div>
-        <div style="font-size:11px;color:var(--text3);margin-top:6px;text-align:center">
+        <div style="font-size:11px;color:var(--text-muted);margin-top:6px;text-align:center">
           每個欄位可個別拖曳到任意位置
         </div>
       </div>
     </div>
 
-    <button class="btn btn-primary" style="margin-top:16px;width:100%;justify-content:center" onclick="saveSettings()">💾 儲存所有設定</button>
+    <button class="btn btn-primary" style="margin-top:16px;width:100%;justify-content:center" onclick="saveSettings()">儲存所有設定</button>
   </div>
 
 </div>
@@ -731,8 +1172,13 @@ window.onload = () => {
   renderInventory();
 
   // Load settings
-  const settingFields = ['storeName','storePhone','storeAddr','storeLine','wmFontStyle','wmFontColor','wmShadowColor','wmOpacity','wmPos'];
+  const settingFields = ['storeName','storePhone','storeAddr','storeLine','wmFontStyle','wmFontColor','wmShadowColor','wmOpacity','wmTextOpacity'];
   settingFields.forEach(f => { const saved=localStorage.getItem('kx_'+f); const el=document.getElementById(f); if(saved&&el) el.value=saved; });
+  const fontSel = document.getElementById('wmFontStyle');
+  if (fontSel) fontSel.style.fontFamily = fontSel.value;
+  const toEl = document.getElementById('wmTextOpacity');
+  const toVal = document.getElementById('wmTextOpacityVal');
+  if (toEl && toVal) toVal.textContent = toEl.value;
   const checkFields = ['wmEnabled','wmBold','wmItalic','wmNoShadow','showStoreName','showStorePhone','showStoreAddr','showStoreLine'];
   checkFields.forEach(f => { const saved=localStorage.getItem('kx_'+f); const el=document.getElementById(f); if(saved&&el) el.checked=saved==='1'; });
   const sizeMode = localStorage.getItem('kx_wmSizeMode') || 'auto';
@@ -1051,7 +1497,8 @@ ${extra.length ? '補充資訊：'+extra.join('、')+'\n' : ''}
   },
   "文案_專業版": "",
   "文案_FB版": "",
-  "文案_誠信版": ""
+  "文案_誠信版": "",
+  "hashtags": ["#二手車", "#中古車", "#好車推薦"]
 }`});
 
     setLoading(true, 'AI 正在生成分析報告與文案...');
@@ -1064,7 +1511,7 @@ ${extra.length ? '補充資訊：'+extra.join('、')+'\n' : ''}
       body: JSON.stringify({
         model:'claude-sonnet-4-5',
         max_tokens:2500,
-        system:'你是專業的二手車辨識 AI。從照片中精準提取資訊並生成吸引人的文案。用繁體中文回答。市場估價請根據台灣二手車市場行情估算。',
+        system:'你是專業的二手車辨識 AI。從照片中精準提取資訊並生成吸引人的文案。用繁體中文回答。市場估價請根據台灣二手車市場行情估算。hashtags 請生成 10-15 個繁體中文和英文混合的相關標籤，包含車款、特色、台灣在地標籤。',
         messages:[{ role:'user', content }]
       })
     });
@@ -1161,6 +1608,10 @@ function renderResult(car) {
       </div>`).join('');
   }
 
+  // Hashtags
+  const tags = car['hashtags'] || ['#二手車','#中古車','#好車推薦','#二手好車'];
+  renderHashtags(tags);
+
   // Copy texts - append store info
   const sName = localStorage.getItem('kx_storeName') || '';
   const sPhone = localStorage.getItem('kx_storePhone') || '';
@@ -1188,8 +1639,40 @@ function renderResult(car) {
 }
 
 // ============================================================
-// COPY / DOWNLOAD
+// HASHTAG
 // ============================================================
+let activeHashtags = [];
+
+function renderHashtags(tags) {
+  activeHashtags = [...tags];
+  const wrap = document.getElementById('hashtagWrap');
+  if (!wrap) return;
+  wrap.innerHTML = activeHashtags.map((tag, i) => `
+    <div style="display:inline-flex;align-items:center;gap:5px;background:var(--bg-section);border:1px solid var(--border-light);border-radius:20px;padding:4px 10px 4px 12px;font-size:12px;color:var(--color-primary);font-weight:500">
+      <span>${tag.startsWith('#')?tag:'#'+tag}</span>
+      <button onclick="removeHashtag(${i})" style="width:16px;height:16px;border-radius:50%;background:var(--border-medium);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--text-muted);line-height:1;padding:0;transition:background .15s" onmouseover="this.style.background='var(--danger)';this.style.color='#fff'" onmouseout="this.style.background='var(--border-medium)';this.style.color='var(--text-muted)'">✕</button>
+    </div>`).join('');
+}
+
+function removeHashtag(idx) {
+  activeHashtags.splice(idx, 1);
+  renderHashtags(activeHashtags);
+}
+
+function addCustomHashtag() {
+  const input = document.getElementById('newHashtagInput');
+  if (!input) return;
+  const val = input.value.trim().replace(/^#+/, '');
+  if (!val) return;
+  activeHashtags.push('#' + val);
+  renderHashtags(activeHashtags);
+  input.value = '';
+}
+
+function copyAllHashtags() {
+  const text = activeHashtags.join(' ');
+  navigator.clipboard.writeText(text).then(() => showToast('✓ Hashtag 已複製'));
+}
 function switchTab(idx) {
   currentTab = idx;
   document.querySelectorAll('.copy-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
@@ -1330,16 +1813,41 @@ const COLOR_PALETTE = [
   '#2F3A4C','#3d4f66','#4a6080','#6080a0','#C8A45D','#d4b474','#dfc491','#ebd4ae','#8b6914','#6b5010','#4a380c','#2a1e04',
 ];
 
+function previewFontSelect(sel) {
+  if (sel) sel.style.fontFamily = sel.value;
+}
+
+function loadPreviewImg(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const img = document.getElementById('wmPreviewBg');
+  const placeholder = document.getElementById('wmPreviewPlaceholder');
+  if (!img) return;
+  img.src = URL.createObjectURL(file);
+  img.style.display = 'block';
+  if (placeholder) placeholder.style.display = 'none';
+}
+
+function clearPreviewImg() {
+  const img = document.getElementById('wmPreviewBg');
+  const placeholder = document.getElementById('wmPreviewPlaceholder');
+  const input = document.getElementById('previewImgInput');
+  if (img) { img.src=''; img.style.display='none'; }
+  if (placeholder) placeholder.style.display='flex';
+  if (input) input.value='';
+}
+
 function buildColorPalette(targetId, colorInputId) {
   const el = document.getElementById(targetId);
   if (!el) return;
-  el.innerHTML = COLOR_PALETTE.map(c =>
-    `<div style="width:100%;padding-top:100%;border-radius:50%;background:${c};cursor:pointer;border:1.5px solid ${c==='#ffffff'||c==='#fff8f8'||c==='#fffff8'?'#ddd':'transparent'};box-shadow:inset 0 1px 2px rgba(255,255,255,0.2);transition:transform .12s"
+  el.innerHTML = COLOR_PALETTE.map(c => {
+    const isLight = c === '#ffffff' || c === '#fff8f8' || c === '#fffff8' || c === '#f0f0f0' || c === '#e0e0e0';
+    return `<div style="width:100%;aspect-ratio:1/1;border-radius:50%;background:${c};cursor:pointer;border:${isLight?'1.5px solid #ccc':'1.5px solid transparent'};box-shadow:0 1px 3px rgba(0,0,0,0.15);transition:transform .12s;display:block"
       onclick="setColor('${colorInputId}','${c}');document.getElementById('${targetId}').closest('[id^=palette]').style.display='none'"
-      onmouseover="this.style.transform='scale(1.3)';this.style.zIndex='5'"
-      onmouseout="this.style.transform='scale(1)';this.style.zIndex='1'"
-      title="${c}"></div>`
-  ).join('');
+      onmouseover="this.style.transform='scale(1.3)'"
+      onmouseout="this.style.transform='scale(1)'"
+      title="${c}"></div>`;
+  }).join('');
 }
 
 function setColor(id, hex) {
@@ -1395,7 +1903,7 @@ function initWmDrag() {
 }
 
 function saveSettings() {
-  const fields = ['storeName','storePhone','storeAddr','storeLine','wmFontStyle','wmFontColor','wmShadowColor','wmOpacity'];
+  const fields = ['storeName','storePhone','storeAddr','storeLine','wmFontStyle','wmFontColor','wmShadowColor','wmOpacity','wmTextOpacity'];
   fields.forEach(f => { const el=document.getElementById(f); if(el) localStorage.setItem('kx_'+f, el.value); });
   const checks = ['wmEnabled','wmBold','wmItalic','wmHasShadow','showStoreName','showStorePhone','showStoreAddr','showStoreLine'];
   checks.forEach(f => { const el=document.getElementById(f); if(el) localStorage.setItem('kx_'+f, el.checked?'1':'0'); });
@@ -1420,6 +1928,7 @@ function updateWmPreview() {
   const hasShadow  = document.getElementById('wmHasShadow')?.checked;
   const shadowColor= document.getElementById('wmShadowColor')?.value || '#000000';
   const opacity    = (parseInt(document.getElementById('wmOpacity')?.value || '60')) / 100;
+  const textOpacity = (parseInt(document.getElementById('wmTextOpacity')?.value || '100')) / 100;
   const sizeMode   = document.querySelector('input[name="wmSizeMode"]:checked')?.value || 'auto';
   const manualSize = document.getElementById('wmFontSizeNum')?.value || '32';
   const fs         = sizeMode === 'manual' ? manualSize+'px' : '16px';
@@ -1453,7 +1962,7 @@ function updateWmPreview() {
     el.style.fontStyle  = italic ? 'italic' : 'normal';
     el.style.fontSize   = fs;
     el.style.color      = fontColor;
-    el.style.opacity    = opacity;
+    el.style.opacity    = textOpacity;
     el.style.textShadow = shadow;
   });
 }
