@@ -92,7 +92,9 @@ main{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:36px 24px
 
 /* Watermark settings */
 .wm-section{background:var(--bg3);border-radius:10px;padding:16px;margin-top:12px}
-.wm-preview{width:100%;max-height:200px;object-fit:contain;border-radius:8px;margin-top:10px;display:none}
+.wm-drag-item{position:absolute;padding:4px 10px;font-size:15px;font-weight:bold;white-space:nowrap;cursor:grab;border:1px dashed rgba(200,164,93,0.5);border-radius:6px;display:none;transition:box-shadow .15s}
+.wm-drag-item:hover{box-shadow:0 2px 8px rgba(200,164,93,0.3)}
+.wm-drag-item.dragging{cursor:grabbing;box-shadow:0 4px 16px rgba(200,164,93,0.4);z-index:10}
 .wm-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
 .wm-ctrl-item{display:flex;flex-direction:column;gap:5px}
 .wm-ctrl-label{font-size:11px;color:var(--text3)}
@@ -498,8 +500,8 @@ input[type=range]{width:100%;accent-color:var(--accent)}
         <div class="inp-label" style="margin-bottom:8px">字型選擇</div>
         <select class="inp" id="wmFontStyle" style="padding:8px 12px;margin-bottom:8px" onchange="updateWmPreview()">
           <optgroup label="── 中文 黑體 ──">
-            <option value="'Noto Sans TC',sans-serif">Noto Sans TC｜現代黑體 ★</option>
-            <option value="'Microsoft JhengHei','PingFang TC',sans-serif">微軟正黑體</option>
+            <option value="'Noto Sans TC',sans-serif">Noto Sans TC｜現代黑體</option>
+            <option value="'Microsoft JhengHei','PingFang TC',sans-serif" selected>微軟正黑體 ★</option>
             <option value="'PingFang TC',sans-serif">蘋方（Apple 系統）</option>
             <option value="'Source Han Sans TC',sans-serif">思源黑體</option>
           </optgroup>
@@ -602,67 +604,73 @@ input[type=range]{width:100%;accent-color:var(--accent)}
       <!-- Colors -->
       <div style="margin-bottom:16px">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <!-- Font color -->
           <div>
             <div class="inp-label" style="margin-bottom:8px">文字顏色</div>
             <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
               <input type="color" id="wmFontColor" value="#ffffff" oninput="updateWmPreview()"
-                style="width:40px;height:40px;border-radius:50%;border:2px solid var(--border);cursor:pointer;padding:2px">
-              <span style="font-size:12px;color:var(--text3)">自訂顏色</span>
+                style="width:36px;height:36px;border-radius:50%;border:2px solid var(--border);cursor:pointer;padding:2px">
+              <button onclick="togglePalette('paletteFont')" style="font-size:12px;color:var(--accent2);background:none;border:1px solid var(--border);border-radius:8px;padding:4px 10px;cursor:pointer">
+                選色 ▾
+              </button>
             </div>
-            <div id="colorPaletteFont" style="display:flex;flex-wrap:wrap;gap:5px"></div>
+            <div id="paletteFont" style="display:none;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:10px;margin-bottom:8px">
+              <div id="colorPaletteFont" style="display:grid;grid-template-columns:repeat(12,1fr);gap:4px"></div>
+            </div>
           </div>
+          <!-- Shadow color -->
           <div>
-            <div class="inp-label" style="margin-bottom:8px">陰影顏色</div>
-            <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
-              <input type="color" id="wmShadowColor" value="#000000" oninput="updateWmPreview()"
-                style="width:40px;height:40px;border-radius:50%;border:2px solid var(--border);cursor:pointer;padding:2px">
-              <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;color:var(--text2)">
-                <input type="checkbox" id="wmNoShadow" onchange="updateWmPreview()" style="accent-color:var(--accent)"> 不要陰影
-              </label>
+            <div class="inp-label" style="margin-bottom:8px">文字陰影</div>
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;color:var(--text2);margin-bottom:8px">
+              <input type="checkbox" id="wmHasShadow" onchange="toggleShadowPanel();updateWmPreview()" style="accent-color:var(--gold)">
+              啟用陰影
+            </label>
+            <div id="shadowPanel" style="display:none">
+              <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+                <input type="color" id="wmShadowColor" value="#000000" oninput="updateWmPreview()"
+                  style="width:36px;height:36px;border-radius:50%;border:2px solid var(--border);cursor:pointer;padding:2px">
+                <button onclick="togglePalette('paletteShadow')" style="font-size:12px;color:var(--accent2);background:none;border:1px solid var(--border);border-radius:8px;padding:4px 10px;cursor:pointer">
+                  選色 ▾
+                </button>
+              </div>
+              <div id="paletteShadow" style="display:none;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:10px">
+                <div id="colorPaletteShadow" style="display:grid;grid-template-columns:repeat(12,1fr);gap:4px"></div>
+              </div>
             </div>
-            <div id="colorPaletteShadow" style="display:flex;flex-wrap:wrap;gap:5px"></div>
           </div>
         </div>
       </div>
 
-      <!-- Opacity & Position -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
-        <div>
-          <div class="inp-label">透明度 <span id="wmOpacityVal">60</span>%</div>
-          <input type="range" id="wmOpacity" min="10" max="100" value="60" oninput="document.getElementById('wmOpacityVal').textContent=this.value;updateWmPreview()" style="width:100%;accent-color:var(--gold);margin-top:8px">
-        </div>
-        <div>
-          <div class="inp-label">快速位置</div>
-          <select class="inp" id="wmPos" style="padding:8px 12px;margin-top:6px" onchange="updateWmPreview()">
-            <option value="br">右下角</option>
-            <option value="bl">左下角</option>
-            <option value="tr">右上角</option>
-            <option value="tl">左上角</option>
-            <option value="free">自由拖曳</option>
-          </select>
-        </div>
+      <!-- Opacity -->
+      <div style="margin-bottom:16px">
+        <div class="inp-label">透明度 <span id="wmOpacityVal">60</span>%</div>
+        <input type="range" id="wmOpacity" min="10" max="100" value="60"
+          oninput="document.getElementById('wmOpacityVal').textContent=this.value;updateWmPreview()"
+          style="width:100%;accent-color:var(--gold);margin-top:8px">
       </div>
 
-      <!-- Preview with drag -->
+      <!-- Preview with individual draggable items -->
       <div>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-          <div class="inp-label">即時預覽（可拖曳調整位置）</div>
-          <span style="font-size:11px;color:var(--text3)">拖曳文字方塊移動位置</span>
+          <div class="inp-label">即時預覽</div>
+          <span style="font-size:11px;color:var(--text3)">拖曳各欄位調整位置</span>
         </div>
-        <div id="wmPreviewBox" style="position:relative;border-radius:12px;overflow:hidden;min-height:200px;border:2px dashed var(--border);background:linear-gradient(135deg,#e8f0fe,#d4e0f0);cursor:crosshair;user-select:none">
-          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
-            <div style="text-align:center">
-              <div style="font-size:32px;opacity:0.3">🚗</div>
-              <div style="font-size:12px;color:#8896aa;margin-top:4px">車輛照片預覽區</div>
+        <div id="wmPreviewBox"
+          style="position:relative;border-radius:12px;overflow:hidden;min-height:240px;border:2px dashed var(--border);background:linear-gradient(135deg,#dce8f5,#c8d8e8);user-select:none">
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none">
+            <div style="text-align:center;opacity:0.25">
+              <div style="font-size:40px">🚗</div>
+              <div style="font-size:12px;color:#4a6080;margin-top:4px">車輛照片預覽區</div>
             </div>
           </div>
-          <div id="wmPreviewText"
-            style="position:absolute;padding:8px 12px;font-size:16px;font-weight:bold;white-space:pre-line;cursor:grab;border:1px dashed rgba(200,164,93,0.4);border-radius:6px;transition:opacity .2s;min-width:80px"
-            data-x="0" data-y="0">
-          </div>
+          <!-- Individual draggable text items -->
+          <div id="wm-item-name"  class="wm-drag-item" style="left:10px;top:10px"  data-key="name"></div>
+          <div id="wm-item-phone" class="wm-drag-item" style="left:10px;top:44px"  data-key="phone"></div>
+          <div id="wm-item-addr"  class="wm-drag-item" style="left:10px;top:78px"  data-key="addr"></div>
+          <div id="wm-item-line"  class="wm-drag-item" style="left:10px;top:112px" data-key="line"></div>
         </div>
         <div style="font-size:11px;color:var(--text3);margin-top:6px;text-align:center">
-          選「自由拖曳」後可在預覽區拖動文字到任意位置
+          每個欄位可個別拖曳到任意位置
         </div>
       </div>
     </div>
@@ -879,6 +887,17 @@ async function applyWatermark(imgFile) {
       }
 
       function drawLabels(lx, ly, lh) {
+        const fontStyle  = localStorage.getItem('kx_wmFontStyle')   || "'Microsoft JhengHei','PingFang TC',sans-serif";
+        const fontColor  = localStorage.getItem('kx_wmFontColor')   || '#ffffff';
+        const hasShadow  = localStorage.getItem('kx_wmHasShadow')   === '1';
+        const shadowColor= localStorage.getItem('kx_wmShadowColor') || '#000000';
+        const bold       = localStorage.getItem('kx_wmBold')        !== '0';
+        const italic     = localStorage.getItem('kx_wmItalic')      === '1';
+        const sizeMode   = localStorage.getItem('kx_wmSizeMode')    || 'auto';
+        let fs = sizeMode === 'manual'
+          ? Math.max(10, Math.min(120, parseInt(localStorage.getItem('kx_wmFontSizeNum') || '32')))
+          : Math.max(16, canvas.width * 0.025);
+
         const showName  = localStorage.getItem('kx_showStoreName')  !== '0';
         const showPhone = localStorage.getItem('kx_showStorePhone') !== '0';
         const showAddr  = localStorage.getItem('kx_showStoreAddr')  === '1';
@@ -887,38 +906,42 @@ async function applyWatermark(imgFile) {
         const sPhone = showPhone ? (localStorage.getItem('kx_storePhone') || '') : '';
         const sAddr  = showAddr  ? (localStorage.getItem('kx_storeAddr')  || '') : '';
         const sLine  = showLine  ? (localStorage.getItem('kx_storeLine')  || '') : '';
-        const lines = [sName, sPhone, sAddr?'📍 '+sAddr:'', sLine?'💬 LINE：'+sLine:''].filter(Boolean);
-        if (!lines.length) return;
 
-        const fontStyle  = localStorage.getItem('kx_wmFontStyle')  || "'Noto Sans TC',sans-serif";
-        const fontColor  = localStorage.getItem('kx_wmFontColor')  || '#ffffff';
-        const shadowColor= localStorage.getItem('kx_wmShadowColor')|| '#000000';
-        const noShadow   = localStorage.getItem('kx_wmNoShadow')   === '1';
-        const bold       = localStorage.getItem('kx_wmBold')       !== '0';
-        const italic     = localStorage.getItem('kx_wmItalic')     === '1';
-        const sizeMode   = localStorage.getItem('kx_wmSizeMode')   || 'auto';
-        let fs;
-        if (sizeMode === 'manual') {
-          fs = parseInt(localStorage.getItem('kx_wmFontSizeNum') || '32');
-          fs = Math.max(10, Math.min(120, fs));
-        } else {
-          fs = Math.max(16, canvas.width * 0.025);
-        }
+        const entries = [
+          { key:'name',  text: sName },
+          { key:'phone', text: sPhone },
+          { key:'addr',  text: sAddr },
+          { key:'line',  text: sLine },
+        ].filter(e => e.text);
 
-        ctx.globalAlpha = opacity;
+        if (!entries.length) return;
+
         ctx.font = `${italic?'italic ':''} ${bold?'bold ':''} ${fs}px ${fontStyle}`;
         ctx.fillStyle = fontColor;
         ctx.lineJoin = 'round';
-        ctx.textAlign = 'left';
-        let ty = ly + lh + fs * 1.4;
-        lines.forEach(line => {
-          if (!noShadow) {
+
+        entries.forEach(entry => {
+          // Use saved position if available, else default stacked
+          const savedPos = JSON.parse(localStorage.getItem('kx_wmPos_'+entry.key) || 'null');
+          const previewBox = document.getElementById('wmPreviewBox');
+          let ex = lx, ey;
+
+          if (savedPos && previewBox) {
+            const pw = previewBox.offsetWidth || 300;
+            const ph = previewBox.offsetHeight || 240;
+            ex = (savedPos.x / pw) * canvas.width;
+            ey = (savedPos.y / ph) * canvas.height + fs;
+          } else {
+            ey = ly + lh + fs * 1.4 + entries.indexOf(entry) * fs * 1.4;
+          }
+
+          ctx.globalAlpha = opacity;
+          if (hasShadow) {
             ctx.strokeStyle = shadowColor;
             ctx.lineWidth = fs * 0.18;
-            ctx.strokeText(line, lx, ty);
+            ctx.strokeText(entry.text, ex, ey);
           }
-          ctx.fillText(line, lx, ty);
-          ty += fs * 1.4;
+          ctx.fillText(entry.text, ex, ey);
         });
         ctx.globalAlpha = 1;
       }
@@ -1272,29 +1295,49 @@ function toggleSizeMode() {
   updateWmPreview();
 }
 
-// Color palette
+function togglePalette(id) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+function toggleShadowPanel() {
+  const has = document.getElementById('wmHasShadow')?.checked;
+  const panel = document.getElementById('shadowPanel');
+  if (panel) panel.style.display = has ? 'block' : 'none';
+}
+
+// Color palette - organized by color family
 const COLOR_PALETTE = [
-  '#000000','#1a1a1a','#333333','#4d4d4d','#666666','#808080','#999999','#b3b3b3','#cccccc','#e6e6e6','#f2f2f2','#ffffff',
-  '#ff0000','#ff4444','#ff6666','#ff9999','#ffcccc','#fff0f0',
-  '#ff6600','#ff8833','#ffaa66','#ffcc99','#ffe6cc','#fff5ee',
-  '#ffcc00','#ffd633','#ffe066','#ffeb99','#fff5cc','#fffde6',
-  '#00cc00','#33cc33','#66cc66','#99cc99','#cceecc','#e6f5e6',
-  '#0066ff','#3388ff','#66aaff','#99ccff','#ccddff','#e6f0ff',
-  '#6600cc','#8833cc','#aa66cc','#cc99ee','#ddccff','#f5eeff',
-  '#cc0066','#cc3388','#cc66aa','#cc99cc','#eeccee','#ffeeFF',
-  '#00cccc','#33cccc','#66cccc','#99ccdd','#cceedd','#eeffff',
-  '#C8A45D','#d4b474','#dfc491','#ebd4ae','#f5e8d0','#fdf6ec',
-  '#2F3A4C','#3d4f66','#4a6080','#6080a0','#8aaac0','#b0ccdd',
+  // Row 1: Grays
+  '#000000','#1a1a1a','#333333','#4d4d4d','#666666','#808080','#999999','#b3b3b3','#cccccc','#e0e0e0','#f0f0f0','#ffffff',
+  // Row 2: Reds
+  '#4a0000','#7a0000','#aa0000','#cc0000','#ff0000','#ff3333','#ff6666','#ff9999','#ffbbbb','#ffdddd','#fff0f0','#fff8f8',
+  // Row 3: Oranges
+  '#4a2000','#7a3800','#aa5500','#cc7700','#ff9900','#ffaa33','#ffbb66','#ffcc99','#ffdabb','#ffecdd','#fff5ee','#fffaf5',
+  // Row 4: Yellows
+  '#4a4000','#7a6800','#aa9400','#ccb800','#ffdd00','#ffe433','#ffeb66','#fff299','#fff7bb','#fffbdd','#fffef0','#fffff8',
+  // Row 5: Greens
+  '#003300','#005500','#007700','#009900','#00bb00','#33cc33','#66dd66','#99ee99','#bbf5bb','#ddfadd','#eefff0','#f5fff5',
+  // Row 6: Teals
+  '#002a2a','#004444','#006666','#008888','#00aaaa','#33bbbb','#66cccc','#99dddd','#bbeeee','#ddf5f5','#eefffe','#f5fffe',
+  // Row 7: Blues
+  '#00004a','#00007a','#0000aa','#0033cc','#0066ff','#3388ff','#66aaff','#99ccff','#bbddff','#ddeeff','#eef5ff','#f5f8ff',
+  // Row 8: Purples
+  '#2a004a','#48007a','#6600aa','#8800cc','#aa00ff','#bb33ff','#cc66ff','#dd99ff','#eabbff','#f5ddff','#faeeff','#fdf5ff',
+  // Row 9: Pinks
+  '#4a0033','#7a0055','#aa0077','#cc0099','#ff00bb','#ff33cc','#ff66dd','#ff99ee','#ffbbf5','#ffddfa','#ffeefd','#fff5fe',
+  // Row 10: Brand
+  '#2F3A4C','#3d4f66','#4a6080','#6080a0','#C8A45D','#d4b474','#dfc491','#ebd4ae','#8b6914','#6b5010','#4a380c','#2a1e04',
 ];
 
 function buildColorPalette(targetId, colorInputId) {
   const el = document.getElementById(targetId);
   if (!el) return;
   el.innerHTML = COLOR_PALETTE.map(c =>
-    `<div style="width:22px;height:22px;border-radius:50%;background:${c};cursor:pointer;border:2px solid ${c==='#ffffff'?'#ddd':'transparent'};box-shadow:0 1px 3px rgba(0,0,0,0.2);transition:transform .15s;flex-shrink:0"
-      onclick="setColor('${colorInputId}','${c}')"
-      onmouseover="this.style.transform='scale(1.25)'"
-      onmouseout="this.style.transform='scale(1)'"
+    `<div style="width:100%;padding-top:100%;border-radius:50%;background:${c};cursor:pointer;border:1.5px solid ${c==='#ffffff'||c==='#fff8f8'||c==='#fffff8'?'#ddd':'transparent'};box-shadow:inset 0 1px 2px rgba(255,255,255,0.2);transition:transform .12s"
+      onclick="setColor('${colorInputId}','${c}');document.getElementById('${targetId}').closest('[id^=palette]').style.display='none'"
+      onmouseover="this.style.transform='scale(1.3)';this.style.zIndex='5'"
+      onmouseout="this.style.transform='scale(1)';this.style.zIndex='1'"
       title="${c}"></div>`
   ).join('');
 }
@@ -1305,113 +1348,114 @@ function setColor(id, hex) {
   updateWmPreview();
 }
 
-// Drag for watermark preview
-let isDragging = false;
-let dragStartX = 0, dragStartY = 0;
-let wmPosX = 10, wmPosY = 10;
+// Individual draggable watermark items
+const wmItemPositions = {};
 
 function initWmDrag() {
-  const previewEl = document.getElementById('wmPreviewText');
-  const boxEl = document.getElementById('wmPreviewBox');
-  if (!previewEl || !boxEl) return;
+  const box = document.getElementById('wmPreviewBox');
+  if (!box) return;
 
-  previewEl.addEventListener('mousedown', e => {
-    const pos = document.getElementById('wmPos')?.value;
-    if (pos !== 'free') return;
-    isDragging = true;
-    dragStartX = e.clientX - wmPosX;
-    dragStartY = e.clientY - wmPosY;
-    previewEl.style.cursor = 'grabbing';
-    e.preventDefault();
-  });
+  document.querySelectorAll('.wm-drag-item').forEach(item => {
+    let dragging = false, startX, startY, startLeft, startTop;
+    const key = item.dataset.key;
 
-  document.addEventListener('mousemove', e => {
-    if (!isDragging) return;
-    const box = boxEl.getBoundingClientRect();
-    wmPosX = Math.max(0, Math.min(e.clientX - dragStartX, box.width - 100));
-    wmPosY = Math.max(0, Math.min(e.clientY - dragStartY, box.height - 40));
-    previewEl.style.left = wmPosX + 'px';
-    previewEl.style.top = wmPosY + 'px';
-    previewEl.style.right = '';
-    previewEl.style.bottom = '';
-    previewEl.style.transform = '';
-    localStorage.setItem('kx_wmFreeX', wmPosX);
-    localStorage.setItem('kx_wmFreeY', wmPosY);
-  });
+    // Load saved position
+    const savedPos = JSON.parse(localStorage.getItem('kx_wmPos_'+key) || 'null');
+    if (savedPos) {
+      item.style.left = savedPos.x + 'px';
+      item.style.top = savedPos.y + 'px';
+    }
 
-  document.addEventListener('mouseup', () => {
-    if (isDragging) { isDragging = false; previewEl.style.cursor = 'grab'; }
+    item.addEventListener('mousedown', e => {
+      dragging = true;
+      item.classList.add('dragging');
+      startX = e.clientX;
+      startY = e.clientY;
+      startLeft = parseInt(item.style.left) || 0;
+      startTop = parseInt(item.style.top) || 0;
+      e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', e => {
+      if (!dragging) return;
+      const boxRect = box.getBoundingClientRect();
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      const newLeft = Math.max(0, Math.min(startLeft + dx, boxRect.width - item.offsetWidth));
+      const newTop = Math.max(0, Math.min(startTop + dy, boxRect.height - item.offsetHeight));
+      item.style.left = newLeft + 'px';
+      item.style.top = newTop + 'px';
+      localStorage.setItem('kx_wmPos_'+key, JSON.stringify({x: newLeft, y: newTop}));
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (dragging) { dragging = false; item.classList.remove('dragging'); }
+    });
   });
 }
 
 function saveSettings() {
-  const fields = ['storeName','storePhone','storeAddr','storeLine','wmFontStyle','wmFontColor','wmShadowColor','wmOpacity','wmPos'];
+  const fields = ['storeName','storePhone','storeAddr','storeLine','wmFontStyle','wmFontColor','wmShadowColor','wmOpacity'];
   fields.forEach(f => { const el=document.getElementById(f); if(el) localStorage.setItem('kx_'+f, el.value); });
-  const checks = ['wmEnabled','wmBold','wmItalic','wmNoShadow','showStoreName','showStorePhone','showStoreAddr','showStoreLine'];
+  const checks = ['wmEnabled','wmBold','wmItalic','wmHasShadow','showStoreName','showStorePhone','showStoreAddr','showStoreLine'];
   checks.forEach(f => { const el=document.getElementById(f); if(el) localStorage.setItem('kx_'+f, el.checked?'1':'0'); });
   const sizeMode = document.querySelector('input[name="wmSizeMode"]:checked')?.value || 'auto';
   localStorage.setItem('kx_wmSizeMode', sizeMode);
   if (sizeMode === 'manual') localStorage.setItem('kx_wmFontSizeNum', document.getElementById('wmFontSizeNum')?.value || '32');
-  // Update toggle UI
   const enabled = document.getElementById('wmEnabled').checked;
-  document.getElementById('wmToggleTrack').style.background = enabled ? 'var(--accent)' : 'var(--bg4)';
-  document.getElementById('wmToggleThumb').style.transform = enabled ? 'translateX(20px)' : 'none';
-  document.getElementById('wmToggleThumb').style.background = enabled ? '#fff' : 'var(--text3)';
+  const track = document.getElementById('wmToggleTrack');
+  const thumb = document.getElementById('wmToggleThumb');
+  if (track) track.style.background = enabled ? 'var(--gold)' : 'var(--bg4)';
+  if (thumb) { thumb.style.transform = enabled ? 'translateX(20px)' : 'none'; thumb.style.background = enabled ? '#fff' : 'var(--text3)'; }
   updateWmPreview();
   showToast('✓ 設定已儲存');
 }
 
 function updateWmPreview() {
-  const box = document.getElementById('wmPreviewBox');
-  const el = document.getElementById('wmPreviewText');
-  if (!el || !box) return;
-
   const enabled = document.getElementById('wmEnabled')?.checked;
-  if (!enabled) { el.textContent = ''; return; }
-
-  const name = document.getElementById('showStoreName')?.checked ? (document.getElementById('storeName')?.value || '') : '';
-  const phone = document.getElementById('showStorePhone')?.checked ? (document.getElementById('storePhone')?.value || '') : '';
-  const addr = document.getElementById('showStoreAddr')?.checked ? (document.getElementById('storeAddr')?.value || '') : '';
-  const line = document.getElementById('showStoreLine')?.checked ? (document.getElementById('storeLine')?.value || '') : '';
-
-  const lines = [name, phone, addr ? '📍 '+addr : '', line ? '💬 LINE：'+line : ''].filter(Boolean);
-  const text = lines.join('\n');
-
-  const fontStyle = document.getElementById('wmFontStyle')?.value || "'Noto Sans TC',sans-serif";
-  const bold = document.getElementById('wmBold')?.checked;
-  const italic = document.getElementById('wmItalic')?.checked;
-  const fontColor = document.getElementById('wmFontColor')?.value || '#ffffff';
-  const shadowColor = document.getElementById('wmShadowColor')?.value || '#000000';
-  const noShadow = document.getElementById('wmNoShadow')?.checked;
-  const opacity = (parseInt(document.getElementById('wmOpacity')?.value || '60')) / 100;
-  const pos = document.getElementById('wmPos')?.value || 'br';
-  const sizeMode = document.querySelector('input[name="wmSizeMode"]:checked')?.value || 'auto';
+  const fontStyle  = document.getElementById('wmFontStyle')?.value  || "'Microsoft JhengHei','PingFang TC',sans-serif";
+  const bold       = document.getElementById('wmBold')?.checked !== false;
+  const italic     = document.getElementById('wmItalic')?.checked;
+  const fontColor  = document.getElementById('wmFontColor')?.value  || '#ffffff';
+  const hasShadow  = document.getElementById('wmHasShadow')?.checked;
+  const shadowColor= document.getElementById('wmShadowColor')?.value || '#000000';
+  const opacity    = (parseInt(document.getElementById('wmOpacity')?.value || '60')) / 100;
+  const sizeMode   = document.querySelector('input[name="wmSizeMode"]:checked')?.value || 'auto';
   const manualSize = document.getElementById('wmFontSizeNum')?.value || '32';
-  const fs = sizeMode === 'manual' ? manualSize+'px' : '16px';
+  const fs         = sizeMode === 'manual' ? manualSize+'px' : '16px';
 
-  el.style.fontFamily = fontStyle;
-  el.style.fontWeight = bold ? 'bold' : 'normal';
-  el.style.fontStyle = italic ? 'italic' : 'normal';
-  el.style.fontSize = fs;
-  el.style.color = fontColor;
-  el.style.opacity = opacity;
-  el.style.textShadow = noShadow ? 'none' : `1px 1px 0 ${shadowColor},-1px -1px 0 ${shadowColor},1px -1px 0 ${shadowColor},-1px 1px 0 ${shadowColor},2px 2px 4px ${shadowColor}`;
-  el.textContent = text || '店家名稱\n聯絡電話';
+  const showName  = document.getElementById('showStoreName')?.checked;
+  const showPhone = document.getElementById('showStorePhone')?.checked;
+  const showAddr  = document.getElementById('showStoreAddr')?.checked;
+  const showLine  = document.getElementById('showStoreLine')?.checked;
 
-  // Position
-  el.style.top=''; el.style.bottom=''; el.style.left=''; el.style.right=''; el.style.transform='';
-  if (pos==='br') { el.style.bottom='8px'; el.style.right='8px'; el.style.textAlign='right'; }
-  else if (pos==='bl') { el.style.bottom='8px'; el.style.left='8px'; el.style.textAlign='left'; }
-  else if (pos==='tr') { el.style.top='8px'; el.style.right='8px'; el.style.textAlign='right'; }
-  else if (pos==='tl') { el.style.top='8px'; el.style.left='8px'; el.style.textAlign='left'; }
-  else if (pos==='free') {
-    const fx = parseFloat(localStorage.getItem('kx_wmFreeX') || '10');
-    const fy = parseFloat(localStorage.getItem('kx_wmFreeY') || '10');
-    wmPosX = fx; wmPosY = fy;
-    el.style.left = fx+'px'; el.style.top = fy+'px'; el.style.textAlign='left';
-    el.style.cursor = 'grab';
-  }
-  else { el.style.top='50%'; el.style.left='50%'; el.style.transform='translate(-50%,-50%)'; el.style.textAlign='center'; }
+  const name  = document.getElementById('storeName')?.value  || '';
+  const phone = document.getElementById('storePhone')?.value || '';
+  const addr  = document.getElementById('storeAddr')?.value  || '';
+  const line  = document.getElementById('storeLine')?.value  || '';
+
+  const items = [
+    { id:'wm-item-name',  show: showName  && !!name,  text: name },
+    { id:'wm-item-phone', show: showPhone && !!phone, text: phone },
+    { id:'wm-item-addr',  show: showAddr  && !!addr,  text: addr },
+    { id:'wm-item-line',  show: showLine  && !!line,  text: line },
+  ];
+
+  const shadow = hasShadow ? `1px 1px 0 ${shadowColor},-1px -1px 0 ${shadowColor},1px -1px 0 ${shadowColor},-1px 1px 0 ${shadowColor}` : 'none';
+
+  items.forEach(item => {
+    const el = document.getElementById(item.id);
+    if (!el) return;
+    el.style.display = (enabled && item.show) ? 'block' : 'none';
+    el.textContent = item.text;
+    el.style.fontFamily = fontStyle;
+    el.style.fontWeight = bold ? 'bold' : 'normal';
+    el.style.fontStyle  = italic ? 'italic' : 'normal';
+    el.style.fontSize   = fs;
+    el.style.color      = fontColor;
+    el.style.opacity    = opacity;
+    el.style.textShadow = shadow;
+  });
 }
 
 // ============================================================
