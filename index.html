@@ -725,17 +725,14 @@ input[type="color"]::-moz-color-swatch{border:none;border-radius:50%}
       </div>
       <div id="copyContents"></div>
 
-      <!-- Hashtag section -->
-      <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border-light)">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-          <div style="font-size:12px;font-weight:600;color:var(--color-primary);letter-spacing:.5px">AI 生成 Hashtag</div>
-          <button onclick="copyAllHashtags()" style="font-size:11px;padding:4px 10px;background:var(--bg-section);border:1px solid var(--border-medium);border-radius:6px;color:var(--text-secondary);cursor:pointer;font-weight:500">全部複製</button>
-        </div>
-        <div id="hashtagWrap" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px"></div>
-        <div style="display:flex;gap:8px">
-          <input class="inp" type="text" id="newHashtagInput" placeholder="輸入自訂 # 標籤" style="flex:1;padding:8px 12px"
+      <!-- Hashtag 內嵌在文案下方 -->
+      <div id="hashtagSection" style="display:none;margin-top:12px;padding:12px 14px;background:var(--bg-section);border-radius:10px;border:1px solid var(--border-light)">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;letter-spacing:.5px;font-weight:500">HASHTAG — 點 ✕ 刪除 · 複製文案時自動帶入</div>
+        <div id="hashtagWrap" style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px"></div>
+        <div style="display:flex;gap:6px">
+          <input class="inp" type="text" id="newHashtagInput" placeholder="新增 # 標籤" style="flex:1;padding:6px 10px;font-size:12px"
             onkeydown="if(event.key==='Enter')addCustomHashtag()">
-          <button onclick="addCustomHashtag()" style="padding:8px 16px;background:var(--gradient-gold);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap">+ 新增</button>
+          <button onclick="addCustomHashtag()" style="padding:6px 12px;background:var(--gradient-gold);color:#fff;border:none;border-radius:7px;font-size:12px;cursor:pointer;white-space:nowrap">+ 新增</button>
         </div>
       </div>
     </div>
@@ -1638,12 +1635,29 @@ let activeHashtags = [];
 function renderHashtags(tags) {
   activeHashtags = [...tags];
   const wrap = document.getElementById('hashtagWrap');
+  const section = document.getElementById('hashtagSection');
   if (!wrap) return;
+  if (section) section.style.display = tags.length ? 'block' : 'none';
   wrap.innerHTML = activeHashtags.map((tag, i) => `
-    <div style="display:inline-flex;align-items:center;gap:5px;background:var(--bg-section);border:1px solid var(--border-light);border-radius:20px;padding:4px 10px 4px 12px;font-size:12px;color:var(--color-primary);font-weight:500">
+    <div style="display:inline-flex;align-items:center;gap:4px;background:var(--bg-surface);border:1px solid var(--border-light);border-radius:20px;padding:3px 8px 3px 10px;font-size:11px;color:var(--color-primary);font-weight:500">
       <span>${tag.startsWith('#')?tag:'#'+tag}</span>
-      <button onclick="removeHashtag(${i})" style="width:16px;height:16px;border-radius:50%;background:var(--border-medium);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--text-muted);line-height:1;padding:0;transition:background .15s" onmouseover="this.style.background='var(--danger)';this.style.color='#fff'" onmouseout="this.style.background='var(--border-medium)';this.style.color='var(--text-muted)'">✕</button>
+      <button onclick="removeHashtag(${i})" style="width:14px;height:14px;border-radius:50%;background:var(--border-medium);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--text-muted);line-height:1;padding:0;flex-shrink:0;transition:background .15s" onmouseover="this.style.background='var(--danger)';this.style.color='#fff'" onmouseout="this.style.background='var(--border-medium)';this.style.color='var(--text-muted)'">✕</button>
     </div>`).join('');
+  updateCopyWithHashtags();
+}
+
+function updateCopyWithHashtags() {
+  if (!copyTexts.length) return;
+  const hashtagStr = activeHashtags.join(' ');
+  document.querySelectorAll('.copy-content').forEach((el, i) => {
+    const base = copyTexts[i] ? copyTexts[i].replace(/\n\n#[^\n].*/s, '') : '';
+    const newText = base + (hashtagStr ? '\n\n' + hashtagStr : '');
+    // Update display (preserve button)
+    const btn = el.querySelector('.btn-copy');
+    el.innerHTML = '';
+    if (btn) el.appendChild(btn);
+    el.appendChild(document.createTextNode(newText));
+  });
 }
 
 function removeHashtag(idx) {
