@@ -1,9 +1,8 @@
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method === 'GET') {
     const mode = req.query['hub.mode'];
     const token = req.query['hub.verify_token'];
     const challenge = req.query['hub.challenge'];
-
     if (mode === 'subscribe' && token === process.env.FB_VERIFY_TOKEN) {
       return res.status(200).send(challenge);
     } else {
@@ -13,7 +12,57 @@ export default function handler(req, res) {
 
   if (req.method === 'POST') {
     const body = req.body;
-    // 之後這裡會加 Claude AI 回覆邏輯
+    const apiKey = process.env.ANTHROPIC_API_KEY;
+    const pageToken = process.env.FB_PAGE_TOKEN;
+
+    const systemPrompt = `你是 KaiX 汽車的 AI 客服助理。請用親切專業的繁體中文回答客戶問題。
+如果客戶詢問特定車款，告訴他們可以傳送照片或詢問詳細需求。
+如果客戶要預約看車，請他們提供想看車的時間，你會幫他們安排。
+保持回答簡潔，不超過200字。`;
+
+    try {
+      const entries = body.entry || [];
+      for (const entry of entries) {
+        const events = entry.messaging || [];
+        for (const event of events) {
+          if (!event.message || !event.message.text) continue;
+          const senderId = event.sender.id;
+          const userMessage = event.message.text;
+
+          // Call Claude AI
+          const aiResponse = await fetch('https://api.anthropic.com/v1/messages', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-api-key': apiKey,
+              'anthropic-version': '2023-06-01',
+            },
+            body: JSON.stringify({
+              model: 'claude-sonnet-4-5',
+              max_tokens: 500,
+              system: systemPrompt,
+              messages: [{ role: 'user', content: userMessage }],
+            }),
+          });
+
+          const aiData = await aiResponse.json();
+          const replyText = aiData.content?.[0]?.text || '您好！感謝您的詢問，我們會盡快回覆您。';
+
+          // Reply to FB Messenger / Instagram
+          await fetch(`https://graph.facebook.com/v18.0/me/messages?access_token=${pageToken}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              recipient: { id: senderId },
+              message: { text: replyText },
+            }),
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+
     return res.status(200).send('OK');
   }
 }
