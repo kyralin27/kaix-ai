@@ -24,44 +24,29 @@ export default async function handler(req, res) {
     try {
       const entries = body.entry || [];
       for (const entry of entries) {
-        // 判斷是 IG 還是 FB
-        const isInstagram = entry.id === process.env.IG_PAGE_ID;
-        const accessToken = isInstagram ? igToken : pageToken;
+        // 同時檢查 messaging 和 changes（IG 用 changes）
+        const messagingEvents = entry.messaging || [];
+        const changesEvents = (entry.changes || [])
+          .filter(c => c.field === 'messages')
+          .map(c => c.value);
 
-        const events = entry.messaging || [];
-        for (const event of events) {
+        // 處理 FB Messenger
+        for (const event of messagingEvents) {
           if (!event.message || !event.message.text) continue;
           const senderId = event.sender.id;
           const userMessage = event.message.text;
+          await replyWithClaude(senderId, userMessage, pageToken, apiKey, systemPrompt);
+        }
 
-          // Call Claude AI
-          const aiResponse = await fetch('https://api.anthropic.com/v1/messages', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'x-api-key': apiKey,
-              'anthropic-version': '2023-06-01',
-            },
-            body: JSON.stringify({
-              model: 'claude-sonnet-4-5',
-              max_tokens: 500,
-              system: systemPrompt,
-              messages: [{ role: 'user', content: userMessage }],
-            }),
-          });
-
-          const aiData = await aiResponse.json();
-          const replyText = aiData.content?.[0]?.text || '您好！感謝您的詢問，我們會盡快回覆您。';
-
-          // Reply
-          await fetch(`https://graph.facebook.com/v18.0/me/messages?access_token=${accessToken}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              recipient: { id: senderId },
-              message: { text: replyText },
-            }),
-          });
+        // 處理 IG
+        for (const change of changesEvents) {
+          if (!change.messages) continue;
+          for (const msg of change.messages) {
+            if (!msg.text) continue;
+            const senderId = change.sender.id || msg.from?.id;
+            const userMessage = msg.text;
+            await replyWithClaude(senderId, userMessage, igToken, apiKey, systemPrompt);
+          }
         }
       }
     } catch (error) {
@@ -70,4 +55,33 @@ export default async function handler(req, res) {
 
     return res.status(200).send('OK');
   }
+}
+
+async function replyWithClaude(senderId, userMessage, accessToken, apiKey, systemPrompt) {
+  const aiResponse = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-5',
+      max_tokens: 500,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: userMessage }],
+    }),
+  });
+
+  const aiData = await aiResponse.json();
+  const replyText = aiData.content?.[0]?.text || '您好！感謝您的詢問，我們會盡快回覆您。';
+
+  await fetch(`https://graph.facebook.com/v18.0/me/messages?access_token=${accessToken}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      recipient: { id: senderId },
+      message: { text: replyText },
+    }),
+  });
 }
