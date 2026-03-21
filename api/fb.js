@@ -58,16 +58,20 @@ ${inventoryText}
   const aiData = await aiResponse.json();
   const replyText = aiData.content?.[0]?.text || '您好！感謝您的詢問，我們會盡快回覆您。';
 
-  // 記錄詢問
-  await supabase.from('inquiries').insert({
-    platform: platform,
-    user_id: senderId,
-    message: userMessage,
-  }).catch(err => console.error('記錄失敗:', err.message));
+  // 記錄詢問（修正：用 try/catch 取代 .catch）
+  try {
+    await supabase.from('inquiries').insert({
+      platform: platform,
+      user_id: senderId,
+      message: userMessage,
+    });
+  } catch (err) {
+    console.error('記錄失敗:', err.message);
+  }
 
   // 回覆訊息
   const apiVersion = platform === 'ig' ? 'v21.0' : 'v18.0';
-  await fetch(`https://graph.facebook.com/${apiVersion}/me/messages?access_token=${accessToken}`, {
+  const replyRes = await fetch(`https://graph.facebook.com/${apiVersion}/me/messages?access_token=${accessToken}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -76,7 +80,8 @@ ${inventoryText}
     }),
   });
 
-  console.log(`[${platform}] 回覆 ${senderId}:`, replyText);
+  const replyData = await replyRes.json();
+  console.log(`[${platform}] 回覆結果:`, JSON.stringify(replyData));
 }
 
 export default async function handler(req, res) {
@@ -110,7 +115,7 @@ export default async function handler(req, res) {
         const events = entry.messaging || [];
         for (const event of events) {
           if (!event.message || !event.message.text || event.message.is_echo) continue;
-          const senderId   = event.sender.id;
+          const senderId    = event.sender.id;
           const userMessage = event.message.text;
           console.log(`[${platform}] 收到訊息:`, senderId, userMessage);
           await replyWithClaude(senderId, userMessage, accessToken, apiKey, platform);
