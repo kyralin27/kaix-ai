@@ -31,14 +31,11 @@ export default async function handler(req, res) {
       for (const entry of entries) {
         const events = entry.messaging || [];
         for (const event of events) {
-          // 只處理一般訊息，跳過 message_edit 等其他事件
           if (!event.message || !event.message.text || event.message.is_echo) continue;
-          
           const senderId = event.sender.id;
           const userMessage = event.message.text;
-          
           console.log('處理訊息:', senderId, userMessage);
-          await replyWithClaude(senderId, userMessage, accessToken, apiKey, systemPrompt);
+          await replyWithClaude(senderId, userMessage, accessToken, apiKey, systemPrompt, isInstagram);
         }
       }
     } catch (error) {
@@ -49,7 +46,7 @@ export default async function handler(req, res) {
   }
 }
 
-async function replyWithClaude(senderId, userMessage, accessToken, apiKey, systemPrompt) {
+async function replyWithClaude(senderId, userMessage, accessToken, apiKey, systemPrompt, isInstagram) {
   const aiResponse = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
@@ -70,7 +67,9 @@ async function replyWithClaude(senderId, userMessage, accessToken, apiKey, syste
 
   console.log('回覆:', replyText);
 
-  await fetch(`https://graph.facebook.com/v18.0/me/messages?access_token=${accessToken}`, {
+  const apiVersion = isInstagram ? 'v21.0' : 'v18.0';
+
+  const replyRes = await fetch(`https://graph.facebook.com/${apiVersion}/me/messages?access_token=${accessToken}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -78,4 +77,7 @@ async function replyWithClaude(senderId, userMessage, accessToken, apiKey, syste
       message: { text: replyText },
     }),
   });
+
+  const replyData = await replyRes.json();
+  console.log('回覆結果:', JSON.stringify(replyData));
 }
