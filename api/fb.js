@@ -22,6 +22,7 @@ export default async function handler(req, res) {
 保持回答簡潔，不超過200字。`;
 
     try {
+      console.log('收到資料:', JSON.stringify(body));
       const entries = body.entry || [];
       for (const entry of entries) {
         // 同時檢查 messaging 和 changes（IG 用 changes）
