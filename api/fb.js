@@ -21,33 +21,24 @@ export default async function handler(req, res) {
 如果客戶要預約看車，請他們提供想看車的時間，你會幫他們安排。
 保持回答簡潔，不超過200字。`;
 
-    try {
-      console.log('收到資料:', JSON.stringify(body));
-      const entries = body.entry || [];
-      for (const entry of entries) {
-        // 同時檢查 messaging 和 changes（IG 用 changes）
-        const messagingEvents = entry.messaging || [];
-        const changesEvents = (entry.changes || [])
-          .filter(c => c.field === 'messages')
-          .map(c => c.value);
+    console.log('收到資料:', JSON.stringify(body));
 
-        // 處理 FB Messenger
-        for (const event of messagingEvents) {
-          if (!event.message || !event.message.text) continue;
+    try {
+      const isInstagram = body.object === 'instagram';
+      const accessToken = isInstagram ? igToken : pageToken;
+      const entries = body.entry || [];
+
+      for (const entry of entries) {
+        const events = entry.messaging || [];
+        for (const event of events) {
+          // 只處理一般訊息，跳過 message_edit 等其他事件
+          if (!event.message || !event.message.text || event.message.is_echo) continue;
+          
           const senderId = event.sender.id;
           const userMessage = event.message.text;
-          await replyWithClaude(senderId, userMessage, pageToken, apiKey, systemPrompt);
-        }
-
-        // 處理 IG
-        for (const change of changesEvents) {
-          if (!change.messages) continue;
-          for (const msg of change.messages) {
-            if (!msg.text) continue;
-            const senderId = change.sender.id || msg.from?.id;
-            const userMessage = msg.text;
-            await replyWithClaude(senderId, userMessage, igToken, apiKey, systemPrompt);
-          }
+          
+          console.log('處理訊息:', senderId, userMessage);
+          await replyWithClaude(senderId, userMessage, accessToken, apiKey, systemPrompt);
         }
       }
     } catch (error) {
@@ -76,6 +67,8 @@ async function replyWithClaude(senderId, userMessage, accessToken, apiKey, syste
 
   const aiData = await aiResponse.json();
   const replyText = aiData.content?.[0]?.text || '您好！感謝您的詢問，我們會盡快回覆您。';
+
+  console.log('回覆:', replyText);
 
   await fetch(`https://graph.facebook.com/v18.0/me/messages?access_token=${accessToken}`, {
     method: 'POST',
